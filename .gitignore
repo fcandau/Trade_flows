@@ -1,0 +1,13 @@
+# Only the lecture is published. Everything else stays local: the exercises and
+# their data go to students through the university cloud, not the web.
+/*
+!/.gitignore
+!/Lecture/
+
+# Build artefacts inside the lecture folder
+Lecture/.quarto/
+Lecture/*.tex
+Lecture/*.log
+Lecture/*.aux
+Lecture/*.lyx~
+Lecture/.Rhistory

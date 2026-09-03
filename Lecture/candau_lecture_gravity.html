@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Fabien Candau">
+
+<title>Lecture on the Trade Gravity Equation</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="candau_lecture_gravity_files/libs/clipboard/clipboard.min.js"></script>
+<script src="candau_lecture_gravity_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="candau_lecture_gravity_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="candau_lecture_gravity_files/libs/quarto-html/popper.min.js"></script>
+<script src="candau_lecture_gravity_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="candau_lecture_gravity_files/libs/quarto-html/anchor.min.js"></script>
+<link href="candau_lecture_gravity_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="candau_lecture_gravity_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="candau_lecture_gravity_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="candau_lecture_gravity_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="candau_lecture_gravity_files/libs/bootstrap/bootstrap-67270d1595a62d14f123c043d4fb2f18.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="course-styles.css">
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#empirical-analysis" id="toc-empirical-analysis" class="nav-link" data-scroll-target="#empirical-analysis"><span class="header-section-number">2</span> Empirical analysis</a>
+  <ul class="collapse">
+  <li><a href="#three-puzzles" id="toc-three-puzzles" class="nav-link" data-scroll-target="#three-puzzles"><span class="header-section-number">2.1</span> Three puzzles</a></li>
+  <li><a href="#fixed-effects" id="toc-fixed-effects" class="nav-link" data-scroll-target="#fixed-effects"><span class="header-section-number">2.2</span> Fixed effects</a></li>
+  <li><a href="#sec-internal" id="toc-sec-internal" class="nav-link" data-scroll-target="#sec-internal"><span class="header-section-number">2.3</span> Internal trade flows</a></li>
+  <li><a href="#trade-agreements-as-a-staggered-difference-in-differences" id="toc-trade-agreements-as-a-staggered-difference-in-differences" class="nav-link" data-scroll-target="#trade-agreements-as-a-staggered-difference-in-differences"><span class="header-section-number">2.4</span> Trade agreements as a staggered difference-in-differences</a>
+  <ul class="collapse">
+  <li><a href="#who-serves-as-the-control-group" id="toc-who-serves-as-the-control-group" class="nav-link" data-scroll-target="#who-serves-as-the-control-group"><span class="header-section-number">2.4.1</span> Who serves as the control group?</a></li>
+  <li><a href="#why-the-twfe-estimate-is-biased" id="toc-why-the-twfe-estimate-is-biased" class="nav-link" data-scroll-target="#why-the-twfe-estimate-is-biased"><span class="header-section-number">2.4.2</span> Why the TWFE estimate is biased</a></li>
+  <li><a href="#the-fix-an-extended-twfe-etwfe" id="toc-the-fix-an-extended-twfe-etwfe" class="nav-link" data-scroll-target="#the-fix-an-extended-twfe-etwfe"><span class="header-section-number">2.4.3</span> The fix: an extended TWFE (ETWFE)</a></li>
+  <li><a href="#what-changes-in-the-results" id="toc-what-changes-in-the-results" class="nav-link" data-scroll-target="#what-changes-in-the-results"><span class="header-section-number">2.4.4</span> What changes in the results</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#theory" id="toc-theory" class="nav-link" data-scroll-target="#theory"><span class="header-section-number">3</span> Theory</a>
+  <ul class="collapse">
+  <li><a href="#standard-model-under-perfect-competition" id="toc-standard-model-under-perfect-competition" class="nav-link" data-scroll-target="#standard-model-under-perfect-competition"><span class="header-section-number">3.1</span> Standard model under perfect competition</a></li>
+  <li><a href="#other-models" id="toc-other-models" class="nav-link" data-scroll-target="#other-models"><span class="header-section-number">3.2</span> Other models</a></li>
+  </ul></li>
+  <li><a href="#multilateral-resistances" id="toc-multilateral-resistances" class="nav-link" data-scroll-target="#multilateral-resistances"><span class="header-section-number">4</span> Multilateral Resistances</a>
+  <ul class="collapse">
+  <li><a href="#two-countries" id="toc-two-countries" class="nav-link" data-scroll-target="#two-countries"><span class="header-section-number">4.1</span> Two countries</a></li>
+  <li><a href="#third-country-effect" id="toc-third-country-effect" class="nav-link" data-scroll-target="#third-country-effect"><span class="header-section-number">4.2</span> Third country effect</a></li>
+  <li><a href="#how-to-solve-the-system" id="toc-how-to-solve-the-system" class="nav-link" data-scroll-target="#how-to-solve-the-system"><span class="header-section-number">4.3</span> How to solve the system</a></li>
+  <li><a href="#sec-normalization" id="toc-sec-normalization" class="nav-link" data-scroll-target="#sec-normalization"><span class="header-section-number">4.4</span> About normalization</a></li>
+  </ul></li>
+  <li><a href="#trade-policy-analysis" id="toc-trade-policy-analysis" class="nav-link" data-scroll-target="#trade-policy-analysis"><span class="header-section-number">5</span> Trade policy analysis</a>
+  <ul class="collapse">
+  <li><a href="#sec-geti" id="toc-sec-geti" class="nav-link" data-scroll-target="#sec-geti"><span class="header-section-number">5.1</span> The effect of trade agreements</a></li>
+  </ul></li>
+  <li><a href="#concluding-remarks" id="toc-concluding-remarks" class="nav-link" data-scroll-target="#concluding-remarks"><span class="header-section-number">6</span> Concluding remarks</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="candau_lecture_gravity.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lecture on the Trade Gravity Equation</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Fabien Candau </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            UPPA, CNRS, TREE
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>The aim of this course is to present, in a pedagogical way, the basis of the literature on modelling trade flows, starting from the simplest model used in the international trade literature.</p>
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>In the words of the poet:</p>
+<blockquote class="blockquote">
+<p>Nature and Nature’s laws lay hid in night</p>
+<p>God said, Let Newton be! and all was light. — Alexander Pope</p>
+</blockquote>
+<p>Such a claim seems to be appropriate even to explain trade, since one of the most famous empirical results emerging from international economics is the finding that bilateral trade increases with gross domestic products (GDP) and decreases with distance. This result comes from the gravity equation, which takes its name from the <em>law of universal gravitation</em> summarized in the following equation:</p>
+<p><span id="eq-naive"><span class="math display">\[X_{ij}=G\frac{Y_{i}Y_{j}}{\tau_{ij}^{2}}. \tag{1}\]</span></span></p>
+<p>Through this equation Newton (1687) ensures that an object <span class="math inline">\(i\)</span> attracts another <span class="math inline">\(j\)</span> with a force (<span class="math inline">\(X_{ij}\)</span>) which is directly proportional to the product of their masses (<span class="math inline">\(Y_{i}Y_{j}\)</span>) and inversely proportional to the square of the distance between them (<span class="math inline">\(\tau_{ij}\)</span>). The universal law of concentration of mass in stars and planets offers analogies to social and economic landscapes too. In international trade, the masses are Gross Domestic Products (GDP) and <span class="math inline">\(X_{ij}\)</span> is the flow of goods from country <span class="math inline">\(i\)</span> to country <span class="math inline">\(j\)</span>. <span class="citation" data-cites="Tinbergen1962">Tinbergen (<a href="#ref-Tinbergen1962" role="doc-biblioref">1962</a>)</span> is the first to test such a relationship with success, without any theoretical foundation.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Leamer (1966) then used the gravity equation to measure the protectionism of countries through the distortions it creates in trade flows, after controlling for supply and demand determinants of trade and distance costs. This approach indirectly measures the degree of trade openness by studying the residual, so that it complements and improves direct measures of trade protection, which can be hard to determine when there are data gaps and hidden protections. Many studies follow such seminal works by using the gravity relation to explain the variance in bilateral trade volumes.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Our aim in this course is not to provide an exhaustive presentation of everything that has been done since these seminal works, but rather to select specific works and examples that enlighten how trade flows can be predicted in international economics; as we are going to see, the gravity equation is often involved in any model that quantifies the effect of trade. Codes in R and Python<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> are provided to estimate the gravity equation and to solve the model.</p>
+<p>We are going to start this course by estimating the ad-hoc gravity equation (<a href="#eq-naive" class="quarto-xref">Eq.&nbsp;1</a>). This estimation is now easy since many institutions, like CEPII, provide datasets that contain every variable that is needed. However, you’ll really learn how to code by doing this yourself and by starting from scratch. Indeed, a gravity estimation requires gathering data that are defined on a bilateral basis (trade flows from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>) and over time (for several years <span class="math inline">\(t\)</span>); this is a very complete exercise that will be useful for you in many other applications.</p>
+<p><strong>Exercise.</strong> Use the software you want (STATA, R, Python, SAS, etc.) to complete the following exercise, based on the dataset provided on the course website in the folder “Exercices/A1_scratch”. The correction is done with R in the file “grav_eng.Rmd” (available on request; I also have it in STATA and SAS).</p>
+<ol type="1">
+<li>Merge the two bilateral databases, “dist” and “baci_agg.sas7bdat”, that provide bilateral distances and bilateral trade flows. Alas, you will face a first problem: in the BACI database, countries are named by numbers, whereas in the “dist” database they are named by letters only. To merge these two tables, you will need a mapping table. This correspondence table is in the “total2.xls” file, in the sheet “correspays”. You’ll see along the way that other problems await you.</li>
+<li>Merge GDPs, both for country <span class="math inline">\(i\)</span> and country <span class="math inline">\(j\)</span>, available in “total2.xls”, sheet “pib”.</li>
+<li>Estimate this equation with a TWFE.</li>
+</ol>
+</section>
+<section id="empirical-analysis" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Empirical analysis</h1>
+<section id="three-puzzles" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="three-puzzles"><span class="header-section-number">2.1</span> Three puzzles</h2>
+<p>The Newton equation presented in <a href="#eq-naive" class="quarto-xref">Eq.&nbsp;1</a>, also called the naive gravity equation, has often been estimated with OLS after a log linearisation, such as:</p>
+<p><span id="eq-ols"><span class="math display">\[\ln X_{ijt}=\ln Y_{it}+\ln Y_{jt}+\ln\tau_{ij}+\epsilon_{ijt}, \tag{2}\]</span></span></p>
+<p>where trade costs are approximated by a vector of bilateral dummies to reduce endogeneity bias (due to omitted variables), such as a shared language, past colonial links, Regional Trade Agreement (RTA) and so on. Such an empirical strategy has led to many puzzling results, and three important debates have been opened.</p>
+<p>The first puzzle concerns the impact of the GATT/WTO on bilateral trade. Although it is usually taught that the GATT, and then the WTO, ushered in an era of strong integration through a sharp fall in tariffs — at least in the industrial sector — <span class="citation" data-cites="Rose2004">Rose (<a href="#ref-Rose2004" role="doc-biblioref">2004</a>)</span> famously found that members do not trade more than non-members. The early reaction was about measurement: <span class="citation" data-cites="Tomz2007">Tomz et al. (<a href="#ref-Tomz2007" role="doc-biblioref">2007</a>)</span> noted that many non-member <em>participants</em> (colonies, de facto members) should be counted as treated, which already restores a sizeable effect. But the deeper resolution came from estimating the gravity equation properly. Using the very tools presented in this course — exporter-time and importer-time fixed effects for the multilateral resistances, country-pair fixed effects to absorb endogeneity, and, crucially, domestic trade flows so that membership is measured relative to internal sales (which captures the non-discriminatory, most-favoured-nation nature of GATT/WTO commitments) — <span class="citation" data-cites="Larch2025">Larch et al. (<a href="#ref-Larch2025" role="doc-biblioref">2025</a>)</span> find a large and significant effect: joining the GATT/WTO raised trade between members by about 171% and between members and non-members by about 88%. The original “no-effect” result is now understood as an artifact of gravity equations estimated without multilateral resistance and without intranational trade.</p>
+<p>The second puzzle, from the same author, concerns the effect of Customs Unions, which are said to triple trade according to <span class="citation" data-cites="Rose2000">Rose (<a href="#ref-Rose2000" role="doc-biblioref">2000</a>)</span>. This result seems too high to be real, and <span class="citation" data-cites="Glick2002">Glick and Rose (<a href="#ref-Glick2002" role="doc-biblioref">2002</a>)</span> revisit it, finding a smaller but still high number (doubling trade). Using different estimators and data sets, several authors have “shrunk” the CU coefficients <span class="citation" data-cites="Nitsch2002">(<a href="#ref-Nitsch2002" role="doc-biblioref">Nitsch 2002</a>)</span>. However, the debate is not closed. On both sides, the main unresolved problems concern reverse causality and selection. Bilateral trade certainly explains why countries sign CUs, and signatories have particular characteristics relative to the treatment that are different from those of non-members. Countries never sign a CU at random.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> This is true for CUs, but also for all other types of trade agreements.</p>
+<p>The third puzzle has been raised regarding the effect of borders when a deep Regional Trade Agreement (RTA) has been set. <span class="citation" data-cites="McCallum1995">McCallum (<a href="#ref-McCallum1995" role="doc-biblioref">1995</a>)</span> highlights that despite the logical idea that a regional trading bloc such as NAFTA makes national borders less important, borders have kept their impact on trade. He underlines his idea by providing an empirical study on the Canada-US border, which is an interesting case because of similar conditions (e.g.&nbsp;language, culture and institutions). Surprisingly, McCallum finds that regional trade between Canadian provinces is 22 times larger than international trade between Canadian provinces and US states, after controlling for size and distance. That’s an impressive number, which reveals a strong border effect despite the implementation of NAFTA. Yet the question might be mitigated or resolved by working with more accurate data, with more complex gravity equations and with different econometric techniques. We will define this in detail in what follows, but for now we may just recall that one of the solutions to better measure the bilateral trade friction has been to introduce fixed effects to control for omitted variables. For instance, <span class="citation" data-cites="Anderson2003">Anderson and Van Wincoop (<a href="#ref-Anderson2003" role="doc-biblioref">2003</a>)</span> find that the border effect is smaller when general equilibrium constraints are taken into account: for instance Canadian provinces trade 10.7 times more among themselves than with the US (cf.&nbsp;22 times in <span class="citation" data-cites="McCallum1995">McCallum (<a href="#ref-McCallum1995" role="doc-biblioref">1995</a>)</span>).</p>
+</section>
+<section id="fixed-effects" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="fixed-effects"><span class="header-section-number">2.2</span> Fixed effects</h2>
+<p>In addition to the introduction of fixed effects, a consensus has emerged to estimate the gravity equation with the PPML estimator in order to take into account zero trade flows and heteroskedasticity. See <span class="citation" data-cites="Silva2006">Santos Silva and Tenreyro (<a href="#ref-Silva2006" role="doc-biblioref">2006</a>)</span>, <span class="citation" data-cites="Head2014">Head and Mayer (<a href="#ref-Head2014" role="doc-biblioref">2014</a>)</span> and <span class="citation" data-cites="Fally2015">Fally (<a href="#ref-Fally2015" role="doc-biblioref">2015</a>)</span> for a discussion. Typically the equation estimated is the following:</p>
+<p><span id="eq-ppml"><span class="math display">\[X_{ijt}=\exp\left[f_{it}+f_{jt}+\kappa\tau_{ij}+\alpha\right]\epsilon_{ijt}, \tag{3}\]</span></span></p>
+<p>where <span class="math inline">\(f_{it}\)</span> and <span class="math inline">\(f_{jt}\)</span> are fixed effects and <span class="math inline">\(\tau_{ij}\)</span> is a vector of trade costs. Authors often use distance between partners and bilateral dummies to reduce endogeneity bias, such as common language, past colonial links, but also time-varying dummies such as the date of entry and exit of countries in an RTA, and so on.</p>
+<p><strong>Exercise.</strong> Upload from the course website the folder “Exercices/A2_gravity”; there are three folders: “input” that contains the data, “output” where results are stored, and “code”. Everything is in R. Go into “code”: 1) read and comment the script “data_processing.R”, which builds the estimation sample from the raw CEPII data; look closely at the section on trade agreements, where the policy dummies are made mutually exclusive, since this is what decides the meaning of each coefficient in the table, 2) read and comment the script “estimation.R”, 3) run the “master.R” file and comment the results.</p>
+<p>To estimate the gravity equation, we use the dataset “gravity” from the CEPII, compiled by <span class="citation" data-cites="Conte2022">Conte et al. (<a href="#ref-Conte2022" role="doc-biblioref">2022</a>)</span>. We also add data on customs unions from <span class="citation" data-cites="Sousa2012">Sousa (<a href="#ref-Sousa2012" role="doc-biblioref">2012</a>)</span>. Dummies on entry in the European Economic Community (EEC) (and another dummy for Europe) are computed from the code of <span class="citation" data-cites="Mayer2019">Mayer et al. (<a href="#ref-Mayer2019" role="doc-biblioref">2019a</a>)</span>.</p>
+<p>In <a href="#tbl-gravity" class="quarto-xref">Table&nbsp;1</a> we present these estimations. The first column presents results of the gravity equation of Newton after log linearisation (<a href="#eq-ols" class="quarto-xref">Eq.&nbsp;2</a>). We can see here the three puzzles presented previously: the high impact of borders, the low impact of WTO/GATT membership and the strong effect of customs unions. Column 2 adds variables relative to the European Union, such as the fact of entering the European Economic Community (EEC), the single market after 1992 and a dummy for the countries that use the Euro. We get here new puzzling results, since all these dummies are negative. In column 3 we add time-varying effects (<span class="math inline">\(f_{it}\)</span> and <span class="math inline">\(f_{jt}\)</span>): the WTO/GATT membership effect is stronger, the border effect is smaller, but other variables do not change much. This estimation does not allow us to analyse individual variables such as GDPs, which are collinear with <span class="math inline">\(f_{it}\)</span> and <span class="math inline">\(f_{jt}\)</span>. Column 4 introduces bilateral fixed effects in addition. This impedes the analysis of bilateral variables that are constant over time, but it removes many puzzling results, at least for the EU. We get results that are quite similar to those obtained in the literature: the EEC, for instance, has enabled trade to increase by more than 100% for member countries (<span class="math inline">\(\exp(0.747)-1\approx 1.11\)</span>), which is around the coefficient obtained by <span class="citation" data-cites="Mayer2019">Mayer et al. (<a href="#ref-Mayer2019" role="doc-biblioref">2019a</a>)</span>. Finally, column 5 re-estimates the bilateral-fixed-effects specification with PPML.</p>
+<div id="tbl-gravity" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-gravity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Estimation of gravity equations
+</figcaption>
+<div aria-describedby="tbl-gravity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">(1) Naive</th>
+<th style="text-align: center;">(2) Naive EU</th>
+<th style="text-align: center;">(3) TWFE</th>
+<th style="text-align: center;">(4) Bil. FE</th>
+<th style="text-align: center;">(5) PPML</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RTA dum.</td>
+<td style="text-align: center;">0.848<sup>a</sup> (0.034)</td>
+<td style="text-align: center;">0.724<sup>a</sup> (0.036)</td>
+<td style="text-align: center;">0.488<sup>a</sup> (0.034)</td>
+<td style="text-align: center;">0.290<sup>a</sup> (0.026)</td>
+<td style="text-align: center;">-0.030 (0.049)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shared currency dum.</td>
+<td style="text-align: center;">0.693<sup>a</sup> (0.083)</td>
+<td style="text-align: center;">0.937<sup>a</sup> (0.108)</td>
+<td style="text-align: center;">0.958<sup>a</sup> (0.092)</td>
+<td style="text-align: center;">0.385<sup>a</sup> (0.085)</td>
+<td style="text-align: center;">0.810<sup>a</sup> (0.137)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Both GATT dum.</td>
+<td style="text-align: center;">0.093<sup>a</sup> (0.020)</td>
+<td style="text-align: center;">0.085<sup>a</sup> (0.020)</td>
+<td style="text-align: center;">0.405<sup>a</sup> (0.036)</td>
+<td style="text-align: center;">0.096<sup>b</sup> (0.038)</td>
+<td style="text-align: center;">-0.200 (0.143)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ln distance</td>
+<td style="text-align: center;">-1.027<sup>a</sup> (0.015)</td>
+<td style="text-align: center;">-1.013<sup>a</sup> (0.015)</td>
+<td style="text-align: center;">-1.328<sup>a</sup> (0.017)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Shared border dum.</td>
+<td style="text-align: center;">0.605<sup>a</sup> (0.076)</td>
+<td style="text-align: center;">0.635<sup>a</sup> (0.075)</td>
+<td style="text-align: center;">0.405<sup>a</sup> (0.072)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shared language dum.</td>
+<td style="text-align: center;">0.759<sup>a</sup> (0.032)</td>
+<td style="text-align: center;">0.736<sup>a</sup> (0.032)</td>
+<td style="text-align: center;">0.633<sup>a</sup> (0.029)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Colonial history dum.</td>
+<td style="text-align: center;">1.580<sup>a</sup> (0.088)</td>
+<td style="text-align: center;">1.593<sup>a</sup> (0.088)</td>
+<td style="text-align: center;">1.523<sup>a</sup> (0.093)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ever sibling dum.</td>
+<td style="text-align: center;">0.487<sup>a</sup> (0.060)</td>
+<td style="text-align: center;">0.506<sup>a</sup> (0.060)</td>
+<td style="text-align: center;">0.543<sup>a</sup> (0.049)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ln Pop, origin</td>
+<td style="text-align: center;">1.054<sup>a</sup> (0.006)</td>
+<td style="text-align: center;">1.060<sup>a</sup> (0.006)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ln Pop, dest</td>
+<td style="text-align: center;">0.939<sup>a</sup> (0.006)</td>
+<td style="text-align: center;">0.944<sup>a</sup> (0.006)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ln GDP/Pop, origin</td>
+<td style="text-align: center;">1.174<sup>a</sup> (0.007)</td>
+<td style="text-align: center;">1.180<sup>a</sup> (0.007)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ln GDP/Pop, dest</td>
+<td style="text-align: center;">0.923<sup>a</sup> (0.007)</td>
+<td style="text-align: center;">0.929<sup>a</sup> (0.007)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Customs union</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">0.993<sup>a</sup> (0.089)</td>
+<td style="text-align: center;">0.741<sup>a</sup> (0.079)</td>
+<td style="text-align: center;">0.537<sup>a</sup> (0.068)</td>
+<td style="text-align: center;">0.102 (0.069)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EIA</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">1.473<sup>a</sup> (0.107)</td>
+<td style="text-align: center;">1.011<sup>a</sup> (0.100)</td>
+<td style="text-align: center;">0.706<sup>a</sup> (0.057)</td>
+<td style="text-align: center;">0.050 (0.049)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Euro area dum.</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">-0.161<sup>b</sup> (0.067)</td>
+<td style="text-align: center;">-0.345<sup>a</sup> (0.089)</td>
+<td style="text-align: center;">0.089 (0.056)</td>
+<td style="text-align: center;">0.055 (0.040)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EU Econ. Community</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">-0.336<sup>a</sup> (0.083)</td>
+<td style="text-align: center;">-1.151<sup>a</sup> (0.115)</td>
+<td style="text-align: center;">0.747<sup>a</sup> (0.056)</td>
+<td style="text-align: center;">0.417<sup>a</sup> (0.062)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EU single market 1992</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">-0.375<sup>a</sup> (0.099)</td>
+<td style="text-align: center;">-0.339<sup>a</sup> (0.100)</td>
+<td style="text-align: center;">0.658<sup>a</sup> (0.061)</td>
+<td style="text-align: center;">0.397<sup>a</sup> (0.039)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Observations</td>
+<td style="text-align: center;">751354</td>
+<td style="text-align: center;">751354</td>
+<td style="text-align: center;">834698</td>
+<td style="text-align: center;">836489</td>
+<td style="text-align: center;">838591</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(R^2\)</span></td>
+<td style="text-align: center;">0.633</td>
+<td style="text-align: center;">0.634</td>
+<td style="text-align: center;">0.731</td>
+<td style="text-align: center;">0.862</td>
+<td style="text-align: center;">0.990</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">2.327</td>
+<td style="text-align: center;">2.325</td>
+<td style="text-align: center;">2.009</td>
+<td style="text-align: center;">1.470</td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="notes">
+<p><strong>Note:</strong> Dependent variable: bilateral trade flows (in logs for columns 1–4, in levels for the PPML column 5). Estimation by OLS in columns 1–4 and by PPML in column 5. Fixed effects: time in (1)–(2); origin-year (<span class="math inline">\(it\)</span>) and destination-year (<span class="math inline">\(jt\)</span>) in (3)–(5); country-pair (<span class="math inline">\(ij\)</span>) added in (4)–(5). Standard errors in parentheses. The sample contains international flows only, with no country trading with itself; <a href="#sec-internal" class="quarto-xref">Section&nbsp;2.3</a> explains why this is a limitation and what it costs. <strong>Reading:</strong> the three puzzles visible in column 1 — a large border effect, a near-zero GATT/WTO effect, and an outsized customs-union effect — shrink markedly once the multilateral resistances (<span class="math inline">\(it\)</span>, <span class="math inline">\(jt\)</span>) and the pair fixed effects (<span class="math inline">\(ij\)</span>) are introduced, and most EU dummies flip from negative to positive. The naive specification mismeasures policy effects precisely because it omits multilateral resistance. <sup>a</sup> <span class="math inline">\(p&lt;0.01\)</span>, <sup>b</sup> <span class="math inline">\(p&lt;0.05\)</span>, <sup>c</sup> <span class="math inline">\(p&lt;0.1\)</span>.</p>
+</div>
+</section>
+<section id="sec-internal" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-internal"><span class="header-section-number">2.3</span> Internal trade flows</h2>
+<p>A subtle but consequential point, emphasized by the recent literature, is that the gravity equation should be estimated on <strong>all</strong> trade flows, including each country’s trade with itself — its <em>internal</em> or <em>domestic</em> trade <span class="math inline">\(X_{ii}\)</span>, that is, shipments from a country’s own producers to its own consumers. For a long time gravity regressions used international flows only and discarded the diagonal of the trade matrix. Yet internal trade is usually the <em>largest</em> flow in the data, since most of what a country consumes it produces at home. Two reasons make it important.</p>
+<p>First, <strong>international frictions are identified only relative to internal trade</strong>. A border effect or a trade-cost elasticity has no natural zero: it can be measured only against the benchmark of how much a country trades with itself. This is exactly the comparison behind the McCallum border puzzle discussed above — intra-national versus international trade — and it is why a credible measure of the border effect needs the internal flow in the sample. <span class="citation" data-cites="Yotov2022">Yotov (<a href="#ref-Yotov2022" role="doc-biblioref">2022</a>)</span> shows that adhering to theory by including domestic trade flows materially changes gravity estimates.</p>
+<p>Second, <strong>non-discriminatory policies cannot be identified without internal trade</strong>. A policy that moves a country’s trade with <em>every</em> partner at once — WTO membership, a general wave of globalisation, a uniform most-favoured-nation tariff — is indistinguishable from an exporter-time or importer-time fixed effect when the data contain international flows only, because the fixed effect absorbs it. Adding domestic trade provides the within-country control that breaks this collinearity, so that the common component of the policy is identified against the country’s own internal trade. <span class="citation" data-cites="HeidLarchYotov2021">Heid et al. (<a href="#ref-HeidLarchYotov2021" role="doc-biblioref">2021</a>)</span> formalise this and show how to recover the effects of such unilateral, non-discriminatory policies. It is precisely the mechanism behind the resolution of the WTO puzzle above, and it is also why <span class="citation" data-cites="DaiYotovZylkin2014">Dai et al. (<a href="#ref-DaiYotovZylkin2014" role="doc-biblioref">2014</a>)</span> find that omitting internal trade biases the estimated effect of regional trade agreements, which divert trade away from members’ domestic sales.</p>
+<p>For these reasons, including domestic trade flows has become a standard recommendation of the modern gravity literature <span class="citation" data-cites="Yotov2016 Yotov2022">(<a href="#ref-Yotov2016" role="doc-biblioref">Yotov et al. 2016</a>; <a href="#ref-Yotov2022" role="doc-biblioref">Yotov 2022</a>)</span>, and the structural gravity datasets now distributed for teaching and research (such as the WTO database used in the next subsection) report internal and international flows consistently. We will rely on this when we turn to general-equilibrium counterfactuals below, where the domestic expenditure share <span class="math inline">\(\lambda_{jj}\)</span> — the share a country spends on its own goods — is the sufficient statistic for the welfare effect of trade.</p>
+<p>The reader should therefore treat <a href="#tbl-gravity" class="quarto-xref">Table&nbsp;1</a> with some caution. It is estimated on international flows only, as almost all of the literature was until recently, and this is one reason why the GATT/WTO coefficient there is so small.</p>
+</section>
+<section id="trade-agreements-as-a-staggered-difference-in-differences" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="trade-agreements-as-a-staggered-difference-in-differences"><span class="header-section-number">2.4</span> Trade agreements as a staggered difference-in-differences</h2>
+<p>The use of dummies to study policies that affect bilateral relationships between countries (e.g.&nbsp;new borders, migratory and trade policies) is quite common in the gravity literature. At least since <span class="citation" data-cites="Baier2007">Baier and Bergstrand (<a href="#ref-Baier2007" role="doc-biblioref">2007</a>)</span>, it has been considered central to estimate the effect of the enforcement of these policies with pair fixed effects, to control for all the unknown bilateral frictions. This two-way fixed effects (TWFE) approach addresses the endogeneity of bilateral policies due to the omitted variable bias (the one due to reverse causality remains a problem). However, two distinct problems remain. The pairs that serve as controls may not be comparable to those that sign, and they are not all treated at the same date, which biases the estimates. This section is devoted to estimators and methods that take into account these issues.</p>
+<section id="who-serves-as-the-control-group" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="who-serves-as-the-control-group"><span class="header-section-number">2.4.1</span> Who serves as the control group?</h3>
+<p>To understand the first, let us describe the idea of “treatment” behind the estimation of the RTA effect with a dummy. By writing <span class="math inline">\(RTA_{ij,t}\)</span> we split the sample in two, the pairs that have an agreement in year <span class="math inline">\(t\)</span> being the treated and every pair with a zero serving as a control. That control group is not a neutral benchmark. It is dominated by country pairs that never sign anything, and those pairs are systematically unlike the ones that do. In the sample of <span class="citation" data-cites="NagengastYotov2025">Nagengast and Yotov (<a href="#ref-NagengastYotov2025" role="doc-biblioref">2025</a>)</span> they lie on average 1,400 kilometres further apart, share a border three times less often, and share a common language less frequently. The pair fixed effects <span class="math inline">\(\mu_{ij}\)</span> absorb such differences in <em>levels</em>, which is why they are indispensable, but they say nothing about <em>trends</em>. Identification requires that trade between two countries which never sign an agreement would have grown at the same rate as trade between future members, had those members not signed. Since countries do not sign agreements at random, this may bias the whole analysis. In the words of the difference-in-differences (DiD) literature, the parallel trends assumption may be violated, and the estimate with it.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+</section>
+<section id="why-the-twfe-estimate-is-biased" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="why-the-twfe-estimate-is-biased"><span class="header-section-number">2.4.2</span> Why the TWFE estimate is biased</h3>
+<p>The second difficulty concerns timing rather than comparability. An RTA dummy is, by construction, a <em>treatment that switches on at different dates for different country pairs</em>: the EEC pairs are treated from the late 1950s, the NAFTA pairs from 1994, and so on. This is <em>staggered treatment adoption</em>, and it creates a difficulty that is now well known. A pair treated late must be compared with pairs whose treatment is not changing at that moment. Some of those have been treated for years already. Since an agreement keeps raising trade for years after it enters into force, an early signatory is still adjusting when it serves as a control, so part of the control trend is itself a treatment effect. <span class="citation" data-cites="NagengastYotov2025">Nagengast and Yotov (<a href="#ref-NagengastYotov2025" role="doc-biblioref">2025</a>)</span> propose an analysis that tackles this, and we follow their exposition here.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p>Write the gravity equation we have with an explicit, possibly heterogeneous, treatment effect. Estimated by PPML on trade levels, the standard specification is</p>
+<p><span id="eq-rta-twfe"><span class="math display">\[Y_{ij,t} = \exp\!\big[\,\delta^{\text{TWFE}}\,RTA_{ij,t} + f_{it} + f_{jt} + \mu_{ij} + \theta_{ii,t}\,\big]\,\epsilon_{ij,t}, \tag{4}\]</span></span></p>
+<p>where <span class="math inline">\(Y_{ij,t}\)</span> is the trade flow (including the country’s internal trade <span class="math inline">\(Y_{ii,t}\)</span>), <span class="math inline">\(f_{it}\)</span> and <span class="math inline">\(f_{jt}\)</span> are the exporter-time and importer-time fixed effects that absorb the multilateral resistances, <span class="math inline">\(\mu_{ij}\)</span> are directional pair fixed effects, and <span class="math inline">\(\theta_{ii,t}\)</span> are domestic-trade-by-year dummies capturing globalisation. A single coefficient <span class="math inline">\(\delta^{\text{TWFE}}\)</span> is asked to summarise the effect of <em>every</em> agreement, in <em>every</em> year since its entry into force.</p>
+<p>The trouble is that the effect of an RTA differs across agreements and grows over time. When treatment effects are heterogeneous like this, <span class="citation" data-cites="deChaisemartin2020">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartin2020" role="doc-biblioref">2020</a>)</span> and <span class="citation" data-cites="GoodmanBacon2021">Goodman-Bacon (<a href="#ref-GoodmanBacon2021" role="doc-biblioref">2021</a>)</span> show that the TWFE coefficient is a <strong>weighted sum of the underlying cohort-by-year treatment effects, and some of the weights can be negative</strong>. As a result <span class="math inline">\(\delta^{\text{TWFE}}\)</span> need not even lie inside the range of the true effects; it can come out negative when every individual effect is positive. The culprit is the comparison described above, which <span class="citation" data-cites="BorusyakJaravelSpiess2024">Borusyak et al. (<a href="#ref-BorusyakJaravelSpiess2024" role="doc-biblioref">2024</a>)</span> call a <em>forbidden comparison</em> because the regression uses already-treated pairs as a control group for pairs treated later.</p>
+<p>A stylised example (two equal cohorts, three periods) makes the negative weight visible. Cohort <span class="math inline">\(A\)</span> signs in period 2 and cohort <span class="math inline">\(B\)</span> in period 3; let <span class="math inline">\(\delta_{A2},\delta_{A3},\delta_{B3}\)</span> be the true effects. Under parallel trends and no anticipation,</p>
+<p><span id="eq-twfe-bias"><span class="math display">\[\delta^{\text{TWFE}} = \delta_{A2} - \tfrac{1}{2}\,\delta_{A3} + \tfrac{1}{2}\,\delta_{B3},
+\qquad
+\delta^{\text{ETWFE}} = \tfrac{1}{3}\,\delta_{A2} + \tfrac{1}{3}\,\delta_{A3} + \tfrac{1}{3}\,\delta_{B3}. \tag{5}\]</span></span></p>
+<p>The TWFE estimand puts a weight of <span class="math inline">\(-\tfrac{1}{2}\)</span> on <span class="math inline">\(\delta_{A3}\)</span>, the <em>second-year</em> (mature) effect of the early cohort, because comparing <span class="math inline">\(B\)</span> against the already-treated <span class="math inline">\(A\)</span> between periods 2 and 3 subtracts <span class="math inline">\(A\)</span>’s own growth in treatment effect. It therefore <strong>overweights short-run effects and underweights long-run effects, and overweights late cohorts relative to early ones</strong>. Since RTA effects grow with maturity, both biases push the conventional estimate <em>downward</em>.</p>
+</section>
+<section id="the-fix-an-extended-twfe-etwfe" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="the-fix-an-extended-twfe-etwfe"><span class="header-section-number">2.4.3</span> The fix: an extended TWFE (ETWFE)</h3>
+<p>The heterogeneity-robust DiD literature solves this by reversing the order of operations. Rather than imposing a single coefficient and letting the regression average the effects on its own, it estimates a separate effect for each treatment <strong>cohort</strong> <span class="math inline">\(g\)</span> (pairs whose RTA started in year <span class="math inline">\(g\)</span>) and each post-treatment <strong>year</strong> <span class="math inline">\(s\)</span>, using only clean comparisons against not-yet-treated and never-treated pairs (<span class="citation" data-cites="CallawaySantAnna2021">Callaway and Sant’Anna (<a href="#ref-CallawaySantAnna2021" role="doc-biblioref">2021</a>)</span>; <span class="citation" data-cites="SunAbraham2021">Sun and Abraham (<a href="#ref-SunAbraham2021" role="doc-biblioref">2021</a>)</span>; <span class="citation" data-cites="BorusyakJaravelSpiess2024">Borusyak et al. (<a href="#ref-BorusyakJaravelSpiess2024" role="doc-biblioref">2024</a>)</span>). For the <em>non-linear</em> PPML gravity model, the convenient implementation is the <strong>extended two-way fixed effects (ETWFE)</strong> estimator of <span class="citation" data-cites="Wooldridge2021">Wooldridge (<a href="#ref-Wooldridge2021" role="doc-biblioref">2021</a>)</span> (linear) and <span class="citation" data-cites="Wooldridge2023">Wooldridge (<a href="#ref-Wooldridge2023" role="doc-biblioref">2023</a>)</span> (non-linear). It keeps the gravity equation untouched and only replaces the single RTA dummy by a full set of cohort-by-year interactions:</p>
+<p><span id="eq-etwfe"><span class="math display">\[Y_{ij,t} = \exp\!\Big[\,\sum_{g=q}^{T}\sum_{s=g}^{T}\delta_{gs}\,D_{gs}^{ij} + f_{it} + f_{jt} + \mu_{ij} + \theta_{ii,t}\,\Big]\,\epsilon_{ij,t}, \tag{6}\]</span></span></p>
+<p>where <span class="math inline">\(D_{gs}^{ij}=1\)</span> if pair <span class="math inline">\(ij\)</span> belongs to cohort <span class="math inline">\(g\)</span> and the year is <span class="math inline">\(s\geq g\)</span>, and zero otherwise. Each <span class="math inline">\(\delta_{gs}\)</span> is now identified off a comparison free of forbidden controls, under a <strong>no-anticipation</strong> assumption and a <strong>parallel-trends</strong> assumption (stated as equal <em>ratios</em> of expected flows rather than equal differences, because the model is in exponential/multiplicative form). The many <span class="math inline">\(\delta_{gs}\)</span> are then aggregated into a single headline number with transparent weights,</p>
+<p><span id="eq-etwfe-agg"><span class="math display">\[\hat{\delta} = \sum_{g=q}^{T}\sum_{s=g}^{T}\frac{N_{gs}}{N_D}\,\hat{\delta}_{gs}, \tag{7}\]</span></span></p>
+<p>each cohort-year cell weighted by its share <span class="math inline">\(N_{gs}/N_D\)</span> in all treated observations, so that <span class="math inline">\(\exp(\hat{\delta})-1\)</span> is the average proportional effect of RTAs on trade. Averaging the <span class="math inline">\(\delta_{gs}\)</span> over cohorts instead of years yields a clean <strong>event study</strong> of how the effect builds up after entry into force.</p>
+</section>
+<section id="what-changes-in-the-results" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="what-changes-in-the-results"><span class="header-section-number">2.4.4</span> What changes in the results</h3>
+<p>Applied to the WTO Structural Gravity Database (manufacturing trade, 1980–2016, with internal trade), keeping every gravity best practice and changing <em>only</em> the treatment specification, the re-estimation roughly doubles the measured effect of trade agreements. The gap between the two columns is the downward bias that forbidden comparisons and the overweighting of short-run effects impart to the conventional estimate.</p>
+<div id="tbl-etwfe" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-etwfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Conventional versus heterogeneity-robust RTA estimates <span class="citation" data-cites="NagengastYotov2025">(<a href="#ref-NagengastYotov2025" role="doc-biblioref">Nagengast and Yotov 2025</a>)</span>
+</figcaption>
+<div aria-describedby="tbl-etwfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">TWFE</th>
+<th style="text-align: center;">ETWFE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RTA coefficient</td>
+<td style="text-align: center;">0.166<sup>***</sup> (0.050)</td>
+<td style="text-align: center;">0.381<sup>***</sup> (0.041)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Implied trade effect</td>
+<td style="text-align: center;">+18%</td>
+<td style="text-align: center;">+46%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="notes">
+<p><strong>Note:</strong> Estimates of <span class="citation" data-cites="NagengastYotov2025">Nagengast and Yotov (<a href="#ref-NagengastYotov2025" role="doc-biblioref">2025</a>)</span> on the WTO Structural Gravity Database (manufacturing, 1980–2016, 69 countries). PPML with exporter-time, importer-time and directional pair fixed effects, internal trade flows and globalisation controls; standard errors clustered by country pair in parentheses. The TWFE column imposes a single RTA dummy (<a href="#eq-rta-twfe" class="quarto-xref">Eq.&nbsp;4</a>), the ETWFE column the cohort-by-year saturation (<a href="#eq-etwfe" class="quarto-xref">Eq.&nbsp;6</a>). The implied trade effect is <span class="math inline">\(\exp(\hat{\delta})-1\)</span>. <sup>***</sup> <span class="math inline">\(p&lt;0.01\)</span>.</p>
+</div>
+<p>Two further lessons are worth keeping. First, the event study shows the effect is not only larger but <strong>spread over a longer horizon</strong>: RTAs keep raising trade for many years and the static TWFE compresses this into the early years. Second, because anticipation contaminates the years just before entry into force, <span class="citation" data-cites="NagengastYotov2025">Nagengast and Yotov (<a href="#ref-NagengastYotov2025" role="doc-biblioref">2025</a>)</span> date the treatment <strong>onset three years before</strong> the agreement legally enters into force. The correction generalises well beyond RTAs; the same logic applies to any staggered gravity policy (WTO accession, currency unions, sanctions) and to gravity equations for migration or FDI flows.</p>
+</section>
+</section>
+</section>
+<section id="theory" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Theory</h1>
+<p>This new literature on the gravity equation really starts with the contribution of <span class="citation" data-cites="Anderson2003">Anderson and Van Wincoop (<a href="#ref-Anderson2003" role="doc-biblioref">2003</a>)</span>. In this section we present their theoretical model and briefly survey theoretical extensions.</p>
+<section id="standard-model-under-perfect-competition" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="standard-model-under-perfect-competition"><span class="header-section-number">3.1</span> Standard model under perfect competition</h2>
+<p><span class="citation" data-cites="Anderson2003">Anderson and Van Wincoop (<a href="#ref-Anderson2003" role="doc-biblioref">2003</a>)</span> — AvW hereafter — consider a <em>complete specialization</em> of countries according to the <span class="citation" data-cites="Armington1969">Armington (<a href="#ref-Armington1969" role="doc-biblioref">1969</a>)</span> assumption of goods differentiated by their country of origin. Thus, each good is produced in one country, but each consumer consumes <em>all goods</em> with <em>homothetic preferences</em> introduced with a standard <em>Constant Elasticity of Substitution</em> between varieties:</p>
+<p><span class="math display">\[U_{j}=\left(\sum_{i=1}^{R}\beta_{i}^{\frac{1-\sigma}{\sigma}}c_{ij}^{\frac{\sigma-1}{\sigma}}\right)^{\frac{\sigma}{\sigma-1}}\]</span></p>
+<p>where <span class="math inline">\(c_{ij}\)</span> is consumption by country <span class="math inline">\(j\)</span>’s consumers of goods produced in <span class="math inline">\(i\)</span> (there are <span class="math inline">\(R\)</span> countries <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span> included), and <span class="math inline">\(\sigma&gt;1\)</span> is the elasticity of substitution between varieties. Lastly the term <span class="math inline">\(\beta_{i}\)</span> introduces asymmetry in the model, where consumers’ tastes depend on the origin country of the products. Utility is maximized under the constraint <span class="math inline">\(\sum_{i=1}^{R}p_{ij}c_{ij}=E_{j}\)</span>, where <span class="math inline">\(p_{ij}\)</span> is the price of a good produced in <span class="math inline">\(i\)</span> and purchased in <span class="math inline">\(j\)</span>. Prices differ between locations by reason of iceberg trade costs <span class="math inline">\(\tau_{ij}\)</span> between <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> (with <span class="math inline">\(\tau\geq1\)</span>). A good produced in country <span class="math inline">\(i\)</span>, and locally sold at <span class="math inline">\(p_{i}\)</span>, is sold in country <span class="math inline">\(j\)</span> at the price <span class="math inline">\(p_{ij}=p_{i}\tau_{ij}\)</span>. The nominal value of an exported variety is <span class="math inline">\(X_{ij}=p_{ij}c_{ij}\)</span>, so by maximizing the utility function to obtain <span class="math inline">\(c_{ij}\)</span> and by using <span class="math inline">\(p_{ij}=p_{i}\tau_{ij}\)</span> one gets the total value of trade from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>:</p>
+<p><span id="eq-avwdemand"><span class="math display">\[X_{ij}=\left(\beta_{i}p_{i}\tau_{ij}\right)^{1-\sigma}\frac{E_{j}}{P_{j}^{1-\sigma}} \tag{8}\]</span></span></p>
+<p>where <span class="math inline">\(P_{j}\)</span> is the consumption price index:</p>
+<p><span id="eq-price"><span class="math display">\[P_{j}=\left[\sum_{i=1}^{R}\left(\beta_{i}p_{i}\tau_{ij}\right)^{1-\sigma}\right]^{\frac{1}{1-\sigma}} \tag{9}\]</span></span></p>
+<p>When the number of varieties increases (e.g.&nbsp;more countries, because each country is specialized in one variety only), the price index decreases, which raises consumption of each variety.</p>
+<p>Assuming that markets clear — i.e.&nbsp;that nation <span class="math inline">\(i\)</span>’s production of traded goods equals its sales of traded goods — one obtains, by summing <a href="#eq-avwdemand" class="quarto-xref">Eq.&nbsp;8</a> over all markets (due to the “love of variety” of the CES utility function, consumers in <span class="math inline">\(j\)</span> consume at least a little bit of every variety produced in <span class="math inline">\(i\)</span>):</p>
+<p><span id="eq-mktclear"><span class="math display">\[\begin{aligned}
+Y_{i} &amp; = \sum_{j=1}^{R}X_{ij}\\
+&amp; = (\beta_{i}p_{i})^{1-\sigma}\sum_{j=1}^{R}\tau_{ij}^{1-\sigma}\frac{E_{j}}{P_{j}^{1-\sigma}}
+\end{aligned} \tag{10}\]</span></span></p>
+<p>This market clearing condition is solved for the price weighted by the preference term, <span class="math inline">\((\beta_{i}p_{i})^{1-\sigma}=\frac{Y_{i}}{\sum_{j=1}^{R}(\tau_{ij}/P_{j})^{1-\sigma}E_{j}}\)</span>, which gives after rearrangement:</p>
+<p><span id="eq-bp1"><span class="math display">\[(\beta_{i}p_{i})^{1-\sigma}  =  \frac{Y_{i}}{\Omega_{i}^{1-\sigma}} \tag{11}\]</span></span></p>
+<p><span id="eq-mr1"><span class="math display">\[\text{with }\quad \Omega_{i}  =  \left[\sum_{j=1}^{R}\frac{E_{j}}{P_{j}^{1-\sigma}}\tau_{ij}^{1-\sigma}\right]^{1/(1-\sigma)} \tag{12}\]</span></span></p>
+<p>The factory price thus depends on production in <span class="math inline">\(i\)</span> but also on <span class="math inline">\(\Omega_{i}\)</span>, which in the words of <span class="citation" data-cites="Head2014">Head and Mayer (<a href="#ref-Head2014" role="doc-biblioref">2014</a>)</span> measures the “capabilities” of exporter <span class="math inline">\(i\)</span> to supply other destinations. In the literature of economic geography <span class="citation" data-cites="Redding2004">(<a href="#ref-Redding2004" role="doc-biblioref">Redding and Venables 2004</a>)</span>, this term is dubbed the “market access” or the “market potential” of an exporter located in <span class="math inline">\(i\)</span>. Finally <span class="citation" data-cites="Anderson2010">Anderson and Yotov (<a href="#ref-Anderson2010" role="doc-biblioref">2010</a>)</span> call <span class="math inline">\(\Omega_{i}\)</span> the “outward multilateral resistance”, to express the same idea that this term represents exporter <span class="math inline">\(i\)</span>’s difficulty/resistance to reach the different markets.</p>
+<p>This term is inserted in <a href="#eq-avwdemand" class="quarto-xref">Eq.&nbsp;8</a> and <a href="#eq-price" class="quarto-xref">Eq.&nbsp;9</a> to obtain, respectively, the “structural” gravity equation<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>:</p>
+<p><span id="eq-structural"><span class="math display">\[X_{ij}  =\frac{Y_{i}}{\Omega_{i}^{1-\sigma}}  \frac{E_{j}}{P_{j}^{1-\sigma}}\tau_{ij}^{1-\sigma}, \tag{13}\]</span></span></p>
+<p><span id="eq-mr2"><span class="math display">\[P_{j}^{1-\sigma}  =  \sum_{i=1}^{R}\frac{Y_{i}}{\Omega_{i}^{1-\sigma}}\tau_{ij}^{1-\sigma}. \tag{14}\]</span></span></p>
+<p>Remember that <span class="math inline">\(P_{j}\)</span> is initially the price index in the budget constraint of consumers in <span class="math inline">\(j\)</span> (see <a href="#eq-price" class="quarto-xref">Eq.&nbsp;9</a>), so it represents the ease/difficulty for consumers/importers in <span class="math inline">\(j\)</span> of having access to all other markets. <span class="citation" data-cites="Anderson2010">Anderson and Yotov (<a href="#ref-Anderson2010" role="doc-biblioref">2010</a>)</span> call <span class="math inline">\(P_{j}\)</span> the “inward multilateral resistance”.</p>
+<p>Very often in this text we are going to speak about <span class="math inline">\(P_{j}\)</span> and <span class="math inline">\(\Omega_{i}\)</span> using the term Multilateral Resistances (MRs for short) without distinction, and we will also often refer to them as price indices (which is quite abusive: the correct term should be “price indices under the market clearing condition” or “at equilibrium”, but that’s too long).</p>
+<p>Notice that the term <span class="math inline">\(\tau_{ij}^{1-\sigma}\)</span> is not an indicator of trade costs but of trade integration; indeed by definition <span class="math inline">\(\sigma&gt;1\)</span>, so when trade costs increase the term <span class="math inline">\(\tau_{ij}^{1-\sigma}\)</span> decreases. For that reason it is often replaced by <span class="math inline">\(\phi\)</span>, with obviously <span class="math inline">\(\phi\equiv\tau_{ij}^{1-\sigma}\)</span>, which varies between 0 for autarky and 1 for free trade. Here, as long as possible, we are going to keep <span class="math inline">\(\tau_{ij}^{1-\sigma}\)</span>.</p>
+<p>Real consumption is given by</p>
+<p><span id="eq-realcons"><span class="math display">\[C_{j}=E_{j}/P_{j} \tag{15}\]</span></span></p>
+<p>which is, under some assumptions, similar to real income, welfare, or the indirect utility of the consumer.</p>
+</section>
+<section id="other-models" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="other-models"><span class="header-section-number">3.2</span> Other models</h2>
+<p>Until now we have mainly presented gravity equations built on a perfect competition framework. But different gravity equations have been obtained from models that differ by their supply and demand sides.</p>
+<p>On the supply side, a gravity equation with heterogeneous firms has been introduced by <span class="citation" data-cites="Chaney2008">Chaney (<a href="#ref-Chaney2008" role="doc-biblioref">2008</a>)</span>. He shows that the fixed cost to enter a foreign market matters when firms differ according to their productivity: only the most productive firms can export. Trade flows in this model depend on the extensive margin (the number of firms that export), and the gravity equation is then modified to take into account these fixed costs and the distribution of firms.</p>
+<p><span class="citation" data-cites="Behrens2014">Behrens et al. (<a href="#ref-Behrens2014" role="doc-biblioref">2014</a>)</span> propose a gravity equation with heterogeneous firms and endogenous wages. They show that trade costs favour wage divergence, limit competition and allow the least efficient firms to survive. Pro-competitive effects are at work in this model: when trade barriers are removed, the share of exporters increases more in this model due to competition effects. They find that the trade liberalization on the US-Canada border, by raising the relative wage in Canada, has a negative impact on trade flows and allows them to reduce the negative weight previously given to borders for Canada.</p>
+<p>On the demand side, several extensions have been done to better understand how domestic demand impacts the specialization of countries and then trade flows. By considering that countries produce different varieties, the <span class="citation" data-cites="Linder1961">Linder (<a href="#ref-Linder1961" role="doc-biblioref">1961</a>)</span> theory states that consumers with similar per capita incomes consume similar goods and thus explains intra-trade between similar countries. Introducing non-homothetic preferences allows one to make the shares of a country’s national expenditure on goods dependent on the levels of per-capita income. The need for using income per capita has been pointed out by <span class="citation" data-cites="Markusen2013">Markusen (<a href="#ref-Markusen2013" role="doc-biblioref">2013</a>)</span>, in particular because its introduction allows one to reduce the “missing trade”, i.e.&nbsp;the difference between predicted and observable flows in a Heckscher-Ohlin-Vanek (HOV) model of factor content <span class="citation" data-cites="Trefler1995">(<a href="#ref-Trefler1995" role="doc-biblioref">Trefler 1995</a>)</span>.</p>
+<p><span class="citation" data-cites="Fieler2011">Fieler (<a href="#ref-Fieler2011" role="doc-biblioref">2011</a>)</span> proposes micro-foundations by introducing non-homothetic preferences in a Ricardian model <em>à la</em> <span class="citation" data-cites="Eaton2002">Eaton and Kortum (<a href="#ref-Eaton2002" role="doc-biblioref">2002</a>)</span>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> With such a framework, she shows that a productivity shock in China turns demand and production towards more luxury goods, which benefits the richer and closer countries (Japan, Hong Kong, Singapore) with high-technology or financial services and is detrimental to intermediate countries since it dampens real wages in necessity goods such as textiles (in particular Malaysia, the Philippines and Thailand are hurt). This model has then been extended by <span class="citation" data-cites="Caron2014">Caron et al. (<a href="#ref-Caron2014" role="doc-biblioref">2014</a>)</span> to an HOV model.</p>
+<p>Finally, <span class="citation" data-cites="Novy2013">Novy (<a href="#ref-Novy2013" role="doc-biblioref">2013</a>)</span> uses a translog utility function with homothetic preferences, and <span class="citation" data-cites="Fajgelbaum2016">Fajgelbaum and Khandelwal (<a href="#ref-Fajgelbaum2016" role="doc-biblioref">2016</a>)</span> extend this framework with non-homothetic preferences. They find that trade liberalization has a distributional effect depending on household income, improving the situation of the poor because they concentrate spending in more traded sectors.</p>
+<p>Hundreds of other models have been developed to improve the gravity equation of AvW and to better quantify the effect of trade integration. The aim of this survey is not to provide an exhaustive list but to explain the general method, which despite the several important improvements made, is often the same. What changes is the introduction of new equations and of new parameters (e.g.&nbsp;the productivity distribution or non-homothetic preferences) that, like the elasticity of substitution in AvW, need to be set.</p>
+</section>
+</section>
+<section id="multilateral-resistances" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Multilateral Resistances</h1>
+<p>One particular problem of the previous system of price indices is that <span class="math inline">\(P_{j}\)</span> depends on <span class="math inline">\(\Omega_{i}\)</span> (and vice-versa) in a non-linear way. Hence we cannot use <a href="#eq-mr2" class="quarto-xref">Eq.&nbsp;14</a> and <a href="#eq-mr1" class="quarto-xref">Eq.&nbsp;12</a> to get an analytical expression for price indices as a function of parameters. This technical difficulty has consequences for the reader unfamiliar with the literature, who does not understand well how these price indices evolve and then how the gravity model functions. Here we propose numerical examples and graphical illustrations to better understand these multilateral resistances.</p>
+<section id="two-countries" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="two-countries"><span class="header-section-number">4.1</span> Two countries</h2>
+<p>The multilateral terms presented previously are central but problematic because price indices are only implicitly defined. Therefore, we resolve this issue here by setting particular values for parameters and by considering two countries, labelled 1 and 2. We also consider that incomes in each country equal expenditures, such that <span class="math inline">\(E_{i}=Y_{i}\)</span> and <span class="math inline">\(E_{j}=Y_{j}\)</span>, symmetric trade costs such that <span class="math inline">\(\tau_{12}=\tau_{21}\equiv\tau\)</span> and no internal trade costs, <span class="math inline">\(\tau_{11}=\tau_{22}=1\)</span>. Under these assumptions the market access for an exporter in <span class="math inline">\(i\)</span> is exactly the same as the market access for a consumer in <span class="math inline">\(i\)</span>: we have <span class="math inline">\(\Omega_{1}=P_{1}\)</span> and <span class="math inline">\(\Omega_{2}=P_{2}\)</span>, so we replace all the <span class="math inline">\(\Omega\)</span> by <span class="math inline">\(P\)</span>, which finally gives the following system of two equations and two unknowns:</p>
+<p><span id="eq-p1two"><span class="math display">\[P_{1}  =  \left(\frac{Y_{1}}{P_{1}^{1-\sigma}}+\frac{Y_{2}}{P_{2}^{1-\sigma}}\tau^{1-\sigma}\right)^{\frac{1}{1-\sigma}} \tag{16}\]</span></span></p>
+<p><span id="eq-p2two"><span class="math display">\[P_{2}  =  \left(\frac{Y_{1}}{P_{1}^{1-\sigma}}\tau^{1-\sigma}+\frac{Y_{2}}{P_{2}^{1-\sigma}}\right)^{\frac{1}{1-\sigma}}. \tag{17}\]</span></span></p>
+<p><strong>Exercise.</strong> Using the software you want, set values for <span class="math inline">\(\sigma\)</span> and GDPs.</p>
+<ol type="1">
+<li>Solve this system of price indices.</li>
+<li>Plot them in order to show how they change with respect to <span class="math inline">\(\tau\)</span>.</li>
+</ol>
+<p>Using the Python code “AvW_example”, in the folder “Exercices/A3_MR”, we set <span class="math inline">\(\sigma=2\)</span> and we solve this system and get the expressions for <span class="math inline">\(P_{1}\)</span> and <span class="math inline">\(P_{2}\)</span>. We have two roots for each price index but fortunately only one root per price is positive and thus economically meaningful. We thus get <span class="math inline">\(P_{1}\)</span> and <span class="math inline">\(P_{2}\)</span> as a function of three parameters that are fundamental in the gravity literature, namely bilateral trade costs (<span class="math inline">\(\tau\)</span>) and GDPs (<span class="math inline">\(Y_{1}\)</span>, <span class="math inline">\(Y_{2}\)</span>). However, these expressions are cumbersome, involving many terms, and then cannot be written here in a nice form. We thus present a numerical illustration. We set the GDP shares by considering that one country has a GDP that represents 80% of the world GDP, <span class="math inline">\(Y_{1}=0.8\)</span> — we speak about this country as the “big” one — while the other (which produces 20% of the world GDP, <span class="math inline">\(Y_{2}=0.2\)</span>) is called a “small” country.</p>
+<p>One can notice that this direct way to solve the system is not sustainable with many countries (computationally too intensive), since it involves determining many multiple solutions. An alternative strategy, that is computationally more efficient, is to set an initial value for one price index, for instance <span class="math inline">\(P_{2}=1\)</span>, in the first equation (<a href="#eq-p1two" class="quarto-xref">Eq.&nbsp;16</a>) to solve for <span class="math inline">\(P_{1}\)</span>, then to use this value in the second equation (<a href="#eq-p2two" class="quarto-xref">Eq.&nbsp;17</a>) to solve for <span class="math inline">\(P_{2}\)</span>, and to pursue this exercise until convergence. We will come back to this solution later, and you can find in the “AvW_example” file the resolution of this system with this iterative process.</p>
+<div id="fig-mr" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig_mr_two.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Multilateral resistances
+</figcaption>
+</figure>
+</div>
+<div class="notes">
+<p><strong>Note:</strong> Numerical solution of the two-country price-index system (<a href="#eq-p1two" class="quarto-xref">Eq.&nbsp;16</a>)–(<a href="#eq-p2two" class="quarto-xref">Eq.&nbsp;17</a>) with <span class="math inline">\(\sigma=2\)</span> and world GDP shares <span class="math inline">\(Y_1=0.8\)</span> (the “big” country) and <span class="math inline">\(Y_2=0.2\)</span> (the “small” country), plotted against the level of bilateral trade costs <span class="math inline">\(\tau\)</span>. <strong>Reading:</strong> the price index is always lower in the big country, and a fall in trade costs lowers it more in the small country. This is the standard “small economies gain more from openness” mechanism behind results such as Mexico being the main winner of NAFTA or the small Eastern-European economies gaining most from the EU single market.</p>
+</div>
+<p>The first result is that the price index is lower in the larger country, which is quite intuitive. Indeed, since more goods are produced there than in smaller countries, fewer goods are imported, leading to a lower price index that is less influenced by trade costs. The second result is that trade liberalization has a stronger impact on smaller countries than on larger ones. This is clearly a corollary of the first result, as smaller countries import more goods; thus, any change in trade costs has a more significant impact. This mechanism is behind many results obtained in the literature. For instance, Mexico is the main winner of NAFTA (not the US) according to <span class="citation" data-cites="Caliendo2014">Caliendo and Parro (<a href="#ref-Caliendo2014" role="doc-biblioref">2014</a>)</span>; small countries of Eastern Europe have been the main beneficiaries of the EU market for goods in <span class="citation" data-cites="Mayer2019a">Mayer et al. (<a href="#ref-Mayer2019a" role="doc-biblioref">2019b</a>)</span>. Finally, <span class="citation" data-cites="Dhingra2017">Dhingra et al. (<a href="#ref-Dhingra2017" role="doc-biblioref">2017</a>)</span> find that Brexit has a minor effect on the EU but a strong negative impact on the UK.</p>
+</section>
+<section id="third-country-effect" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="third-country-effect"><span class="header-section-number">4.2</span> Third country effect</h2>
+<p>By estimating the naive gravity equation (<a href="#eq-naive" class="quarto-xref">Eq.&nbsp;1</a>) without the multilateral terms, authors neglect what is called the “third country” effect. An increase in trade costs in one part of the global network may affect all other parts of the world, and in particular the bilateral trade flow between <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, even if their bilateral trade costs have not changed.</p>
+<p>This effect cannot be studied in our previous example with only two countries, so we now consider a particular case with three countries that have the following characteristics: countries 1 and 2 are small countries, while “country” 3 represents the rest of the world. Our aim is to analyze how a change in trade costs in the rest of the world impacts price indices, real income and bilateral trade between countries 1 and 2.</p>
+<p>We assume no internal trade costs in these small countries, <span class="math inline">\(\tau_{11}=\tau_{22}=1\)</span>, but we keep internal trade costs in the rest of the world, <span class="math inline">\(\tau_{33}\)</span>. We still consider symmetric trade costs such that <span class="math inline">\(\tau_{12}=\tau_{21}\equiv\tau\)</span>, and we similarly assume that there is no difference in market access to the rest of the world, <span class="math inline">\(\tau_{23}=\tau_{13}\equiv\theta\)</span>. The system of price indices is then given by:</p>
+<p><span id="eq-p1three"><span class="math display">\[P_{1}  =  \left[\frac{Y_{1}}{P_{1}^{1-\sigma}}+\frac{Y_{2}}{P_{2}^{1-\sigma}}\tau^{1-\sigma}+\frac{Y_{3}}{P_{3}^{1-\sigma}}(\tau_{33}\theta)^{1-\sigma}\right]^{\frac{1}{1-\sigma}} \tag{18}\]</span></span></p>
+<p><span id="eq-p2three"><span class="math display">\[P_{2}  =  \left(\frac{Y_{1}}{P_{1}^{1-\sigma}}\tau^{1-\sigma}+\frac{Y_{2}}{P_{2}^{1-\sigma}}+\frac{Y_{3}}{P_{3}^{1-\sigma}}(\tau_{33}\theta)^{1-\sigma}\right)^{\frac{1}{1-\sigma}} \tag{19}\]</span></span></p>
+<p><span id="eq-p3three"><span class="math display">\[P_{3}  =  \left(\frac{Y_{1}}{P_{1}^{1-\sigma}}\theta^{1-\sigma}+\frac{Y_{2}}{P_{2}^{1-\sigma}}\theta^{1-\sigma}+\frac{Y_{3}}{P_{3}^{1-\sigma}}\tau_{33}^{1-\sigma}\right)^{\frac{1}{1-\sigma}} \tag{20}\]</span></span></p>
+<p><strong>Exercise.</strong> Using the software you want, set values for <span class="math inline">\(\sigma\)</span> and GDPs.</p>
+<ol type="1">
+<li>Solve this system of price indices.</li>
+<li>Plot <span class="math inline">\(P_{1}\)</span>, <span class="math inline">\(X_{12}\)</span> and <span class="math inline">\(C_{1}\)</span> with respect to <span class="math inline">\(\tau_{33}\)</span>.</li>
+</ol>
+<p>The correction is provided in the file “AvW_example”. Countries 1 and 2 have similar incomes, and then, due to the previous assumptions, trade costs in the rest of the world have the same effect in the two countries, so we only present price indices and real income in country 1. We set <span class="math inline">\(\sigma=2\)</span> and solve the three equations (<a href="#eq-p1three" class="quarto-xref">Eq.&nbsp;18</a>)–(<a href="#eq-p3three" class="quarto-xref">Eq.&nbsp;20</a>) jointly with a numerical solver, starting from <span class="math inline">\(P_{1}=P_{2}=P_{3}=1\)</span>. Once the price indices are obtained we compute bilateral trade with (<a href="#eq-structural" class="quarto-xref">Eq.&nbsp;13</a>) and real income with (<a href="#eq-realcons" class="quarto-xref">Eq.&nbsp;15</a>).</p>
+<p>Two remarks on the method. First, no normalization is needed in this particular example: with <span class="math inline">\(\sigma=2\)</span>, multiplying every price index by a constant <span class="math inline">\(k\)</span> multiplies the left-hand side of each equation by <span class="math inline">\(k^{1-\sigma}\)</span> and the right-hand side by <span class="math inline">\(k^{\sigma-1}\)</span>, so the two sides do not move together and the solution is already unique. This is specific to the simplification <span class="math inline">\(\Omega_{i}=P_{i}\)</span> used here; in the general model one price index has to be fixed, as discussed in <a href="#sec-normalization" class="quarto-xref">Section&nbsp;4.4</a> below. Second, one could instead solve the system by hand, since with two or three countries a closed-form solution exists. We do not, and the reason is worth keeping in mind: the expressions are already unreadable with two countries, they have to be derived again from scratch whenever a parameter changes, and several of the roots are negative and have to be discarded by inspection. A solver does the same work in one line, and it is what researchers use on real data with dozens of countries.</p>
+<p><a href="#fig-third" class="quarto-xref">Figure&nbsp;2</a> plots these variables for country 1, as well as exports from country 1 to 2, with the following data: country 1 and country 2 have a GDP that represents 10% of world production, 80% of the remaining production is done in country 3, the rest of the world. Free trade is assumed between countries 1 and 2, <span class="math inline">\(\tau=1\)</span>, and a trade cost of <span class="math inline">\(\theta=1.1\)</span> is assumed between these countries and the rest of the world.</p>
+<div id="fig-third" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-third-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig_mr_third.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-third-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: How protectionism in the rest of the world affects small economies
+</figcaption>
+</figure>
+</div>
+<div class="notes">
+<p><strong>Note:</strong> Three-country system (<a href="#eq-p1three" class="quarto-xref">Eq.&nbsp;18</a>)–(<a href="#eq-p3three" class="quarto-xref">Eq.&nbsp;20</a>) solved numerically with <span class="math inline">\(\sigma=2\)</span>; countries 1 and 2 each hold 10% of world GDP and the rest of the world holds 80%, with free trade between 1 and 2 (<span class="math inline">\(\tau=1\)</span>) and a trade cost <span class="math inline">\(\theta=1.1\)</span> to the rest of the world. The price index <span class="math inline">\(P_1\)</span> (right axis), bilateral exports <span class="math inline">\(X_{12}\)</span> and real income <span class="math inline">\(C_1\)</span> of country 1 (left axis) are plotted against the rest-of-the-world internal trade cost <span class="math inline">\(\tau_{33}\)</span>. <strong>Reading:</strong> although nothing changes between countries 1 and 2, more protectionism in the rest of the world raises their price index and lowers their real income. Their bilateral trade rises, because being cut off from the rest of the world turns them towards each other. None of this is visible in the naive gravity equation, which has no multilateral resistance term.</p>
+</div>
+<p>We clearly see in <a href="#fig-third" class="quarto-xref">Figure&nbsp;2</a> that while nothing has changed between countries 1 and 2, the increase in trade costs in the rest of the world leads to a strong increase in the price index in these countries. All the goods imported from the rest of the world are now more expensive due to the trade fragmentation that occurs there. As a result, real income decreases in these small economies: consumers in country 1 can afford less, although the nominal income <span class="math inline">\(Y_{1}\)</span> has not moved.</p>
+<p>Trade between countries 1 and 2 moves in the opposite direction, and this is the interesting part. Their bilateral trade <em>increases</em>, even though their own bilateral trade cost <span class="math inline">\(\tau\)</span> has not changed. The reason is visible in the structural gravity equation (<a href="#eq-structural" class="quarto-xref">Eq.&nbsp;13</a>): with <span class="math inline">\(\sigma&gt;1\)</span> the term <span class="math inline">\(P_{j}^{\sigma-1}\)</span> enters positively, so a country that becomes more remote from the rest of the world buys relatively more from the few partners it can still reach. This is trade diversion in the sense of <span class="citation" data-cites="Viner1954">Viner (<a href="#ref-Viner1954" role="doc-biblioref">1954</a>)</span>, obtained here without any change in the policy between the two partners. It also shows how misleading the naive gravity equation (<a href="#eq-naive" class="quarto-xref">Eq.&nbsp;1</a>) can be: an econometrician who observed the rise in <span class="math inline">\(X_{12}\)</span> without controlling for the multilateral resistances would conclude that something happened between countries 1 and 2, when in fact nothing did.</p>
+<p>Another way to present these MRs is to consider that they capture the economic and geographical remoteness of these two partners from the rest of the world. This interpretation has been very important in the field of Economic Geography, which has emphasized that growth depends in several ways on the remoteness of countries <span class="citation" data-cites="Redding2004">(<a href="#ref-Redding2004" role="doc-biblioref">Redding and Venables 2004</a>)</span>. One can see in equations (<a href="#eq-p1three" class="quarto-xref">Eq.&nbsp;18</a>) and (<a href="#eq-p2three" class="quarto-xref">Eq.&nbsp;19</a>) that our variable of internal costs in the rest of the world, <span class="math inline">\(\tau_{33}\)</span>, is isomorphic to (has the same effect as) trade costs with the RoW, <span class="math inline">\(\theta\)</span>. Then, protectionism in these two countries against the rest of the world leads to a similar decrease in real income and trade flows.</p>
+<p>This third country effect is also related to the literature on trade diversion and trade creation, first presented by <span class="citation" data-cites="Viner1954">Viner (<a href="#ref-Viner1954" role="doc-biblioref">1954</a>)</span> to analyse customs unions. A customs union, by reducing trade costs between members, is at the origin of trade creation between partners, but the common barrier that increases trade costs with external partners leads to a trade destruction. Hence the net effect is unknown. Production and trade may have been diverted from competitive firms that are outside the customs union to less competitive firms inside the common market by reason of the tariff distortion. Typically the naive gravity equation (<a href="#eq-naive" class="quarto-xref">Eq.&nbsp;1</a>) takes into account only the creation effect, while the structural gravity equation (<a href="#eq-structural" class="quarto-xref">Eq.&nbsp;13</a>) takes into account all these effects.</p>
+</section>
+<section id="how-to-solve-the-system" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="how-to-solve-the-system"><span class="header-section-number">4.3</span> How to solve the system</h2>
+<p>How do researchers solve this non-linear system of price indices with real data and then several countries? As we have seen in the previous numerical example, there are many solutions, and each involves different steps.</p>
+<p>The first step is often to estimate the gravity equation (<a href="#eq-gravemp" class="quarto-xref">Eq.&nbsp;21</a>). Typically the estimation is done in panel, but we drop the time subscript to be consistent with the previous notation. The equation estimated is the following:</p>
+<p><span id="eq-gravemp"><span class="math display">\[X_{ij}=\exp\left[f_{i}+f_{j}+\kappa\tau_{ij}+\alpha\right]\epsilon_{ij}, \tag{21}\]</span></span></p>
+<p>where <span class="math inline">\(f_{i}\)</span> and <span class="math inline">\(f_{j}\)</span> are fixed effects and <span class="math inline">\(\tau_{ij}\)</span> is a proxy for trade costs. Authors often use distance between partners and bilateral dummies to reduce endogeneity bias, such as common language, past colonial links and so on (but tariffs or RTAs, which are endogenous, are also often introduced, because no good solutions have been found to resolve the reverse causality in these cases). The main idea behind this estimation is related to the structural gravity (<a href="#eq-structural" class="quarto-xref">Eq.&nbsp;13</a>): it is assumed that the fixed effect <span class="math inline">\(f_{i}\)</span> captures the price index in <span class="math inline">\(i\)</span>, namely <span class="math inline">\(\frac{Y_{i}}{\Omega_{i}^{1-\sigma}}\)</span>, while <span class="math inline">\(f_{j}\)</span> captures the price index in <span class="math inline">\(j\)</span>, namely <span class="math inline">\(\frac{Y_{j}}{\Omega_{j}^{1-\sigma}}\)</span>, while <span class="math inline">\(\kappa\)</span> captures the elasticity of bilateral trade flows to trade costs.</p>
+<p>Departing from this estimation, several solutions are possible to solve the system of price indices.</p>
+<p>AvW use a Non-linear Least Squares (NLS) method that minimizes the sum of squared residuals of the gravity equation (<a href="#eq-gravemp" class="quarto-xref">Eq.&nbsp;21</a>) under the constraint of the implicit price index functions (<a href="#eq-mr1" class="quarto-xref">Eq.&nbsp;12</a>) and (<a href="#eq-mr2" class="quarto-xref">Eq.&nbsp;14</a>). This estimation is based on the Gauss-Newton method, where the algorithm starts with an initial guess for the price indices and iteratively updates the estimates until convergence is reached.</p>
+<p><span class="citation" data-cites="Anderson2010">Anderson and Yotov (<a href="#ref-Anderson2010" role="doc-biblioref">2010</a>)</span> estimate <a href="#eq-gravemp" class="quarto-xref">Eq.&nbsp;21</a> and use the estimated coefficient of the trade cost elasticities, hereafter denoted <span class="math inline">\(\hat{\kappa}\)</span>, to compute the predicted value of trade integration, denoted <span class="math inline">\(\hat{\tau}_{ij}\)</span> and thus given by <span class="math inline">\(\hat{\tau}_{ij}=\hat{\kappa}\tau_{ij}\)</span>. Then they replace the <span class="math inline">\(\tau_{ij}^{1-\sigma}\)</span> in the system of (<a href="#eq-mr1" class="quarto-xref">Eq.&nbsp;12</a>) and (<a href="#eq-mr2" class="quarto-xref">Eq.&nbsp;14</a>) by this <span class="math inline">\(\hat{\tau}_{ij}\)</span>, and with some other assumptions (already presented, such as <span class="math inline">\(\Omega_{i}=P_{i}\)</span>, <span class="math inline">\(E_{i}=Y_{i}\)</span> and so on), they get:</p>
+<p><span id="eq-mr1ay"><span class="math display">\[P_{i}  =  \left[\sum_{j=1}^{R}\frac{Y_{j}}{P_{j}^{1-\sigma}}\hat{\tau}_{ij}\right]^{\frac{1}{1-\sigma}} \tag{22}\]</span></span></p>
+<p><span id="eq-mr2ay"><span class="math display">\[P_{j}  =  \left(\sum_{i=1}^{R}\frac{Y_{i}}{P_{i}^{1-\sigma}}\hat{\tau}_{ij}\right)^{\frac{1}{1-\sigma}}. \tag{23}\]</span></span></p>
+<p>Finally, they normalize one price index and set a value for <span class="math inline">\(\sigma\)</span> to solve the system.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>Instead of using the estimation of the gravity equation to get <span class="math inline">\(\hat{\tau}_{ij}\)</span>, one can use trade flows to approximate trade costs. This method was first proposed by <span class="citation" data-cites="Head2001">Head and Ries (<a href="#ref-Head2001" role="doc-biblioref">2001</a>)</span> and then extended. For instance, <span class="citation" data-cites="Caliendo2014">Caliendo and Parro (<a href="#ref-Caliendo2014" role="doc-biblioref">2014</a>)</span> propose a three-country method, where trade flows are used to compute an indicator of trade costs based on tariffs. This calibration of <span class="math inline">\(\tau_{ij}\)</span> can then be inserted in (<a href="#eq-mr1ay" class="quarto-xref">Eq.&nbsp;22</a>) and (<a href="#eq-mr2ay" class="quarto-xref">Eq.&nbsp;23</a>) to solve the system.</p>
+<p><span class="citation" data-cites="Baier2009">Baier and Bergstrand (<a href="#ref-Baier2009" role="doc-biblioref">2009</a>)</span> linearize the problem by applying a first-order log-linear Taylor-series expansion to solve the system of price indices (<a href="#eq-mr1" class="quarto-xref">Eq.&nbsp;12</a>) and (<a href="#eq-mr2" class="quarto-xref">Eq.&nbsp;14</a>), and then run OLS.</p>
+<p><span class="citation" data-cites="Behrens2010">Behrens et al. (<a href="#ref-Behrens2010" role="doc-biblioref">2010</a>)</span> also linearize their theoretical model and undertake an original line of research by using spatial econometrics to approximate the multilateral resistance. As they underline, the fact that the sales from any region into a market negatively depend on the sales from the other regions into that market, which themselves depend on the whole distribution of bilateral trade barriers, involves a spatial autoregressive structure in trade flows.</p>
+<p><span class="citation" data-cites="Head2014">Head and Mayer (<a href="#ref-Head2014" role="doc-biblioref">2014</a>)</span> adopt the same first steps as <span class="citation" data-cites="Anderson2010">Anderson and Yotov (<a href="#ref-Anderson2010" role="doc-biblioref">2010</a>)</span>: they estimate <a href="#eq-gravemp" class="quarto-xref">Eq.&nbsp;21</a> to get <span class="math inline">\(\hat{\tau}_{ij}\)</span> and then solve the system (<a href="#eq-mr1" class="quarto-xref">Eq.&nbsp;12</a>) and (<a href="#eq-mr2" class="quarto-xref">Eq.&nbsp;14</a>), but they do not stop here. Once they have values for <span class="math inline">\(P_{i}\)</span> and <span class="math inline">\(P_{j}\)</span>, they insert them in the gravity equation (<a href="#eq-gravemp" class="quarto-xref">Eq.&nbsp;21</a>) in place of the fixed effects and re-estimate this equation to obtain a new measure of <span class="math inline">\(\hat{\tau}_{ij}\)</span>; once obtained, they insert it in the price index and solve again, and reproduce the whole process until convergence. They call this method SILS, for Structurally Iterated Least Squares.</p>
+<p><span class="citation" data-cites="Anderson2018">Anderson et al. (<a href="#ref-Anderson2018" role="doc-biblioref">2018</a>)</span> use a different strategy, that capitalizes on <span class="citation" data-cites="Fally2015">Fally (<a href="#ref-Fally2015" role="doc-biblioref">2015</a>)</span>, who presents the conditions under which MRs are directly measured by fixed effects with PPML. Starting from this, they also run <a href="#eq-gravemp" class="quarto-xref">Eq.&nbsp;21</a> but compute a different <span class="math inline">\(\hat{\tau}_{ij}=\hat{\kappa}\tau_{ij}+\log(X_{ij}/\hat{X}_{ij})\)</span> by adding the log of the ratio between actual and predicted trade. They call this the “estibrated” trade cost vector, because it enables them to estimate <span class="math inline">\(\hat{\kappa}\)</span> (as before) but also to construct a vector of bilateral trade costs that matches the trade flow data perfectly (thanks to <span class="math inline">\(\log(X_{ij}/\hat{X}_{ij})\)</span>), and then to calibrate trade costs. Since they consider that MRs are given by fixed effects, they don’t have to solve the system of price indices. They call this analysis GEPPML, for General Equilibrium with PPML. This is clearly the simplest method; however, in practice it requires that all fixed effects be estimated (which is rarely the case — some fixed effects are often dropped due to collinearity issues). <span class="citation" data-cites="Yotov2016">Yotov et al. (<a href="#ref-Yotov2016" role="doc-biblioref">2016</a>)</span> provide a detailed presentation of this method, and <span class="citation" data-cites="Herman2021">Herman (<a href="#ref-Herman2021" role="doc-biblioref">2021</a>)</span> has built a useful Python package, called gegravity, that follows this analysis.</p>
+</section>
+<section id="sec-normalization" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-normalization"><span class="header-section-number">4.4</span> About normalization</h2>
+<p>Many of these methods require normalizing the MRs of one country. From a theoretical point of view this normalization has no effect and any country can be taken. In reality, however, since all the results are given in reference to this country, it is better to choose a country with data of high quality. Indeed, the quality of trade statistics is not the same for a poor country as for a rich one (think of corruption at the border and informal trade), and then all the results might be compromised if the reference is wrong. Furthermore, the counterfactual analysis cannot be done on the reference country, so do not choose a country on which the policy effect may be strong.</p>
+<p>A problem that is rarely reported is that solvers that solve this non-linear system often fail to solve it! Indeed, depending on the data (for instance disaggregated data), a solution can be difficult to find because a small difference in the magnitude of the MR can have a big impact on the function value. Then one solution is to rescale the MR to reduce the magnitude.</p>
+</section>
+</section>
+<section id="trade-policy-analysis" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Trade policy analysis</h1>
+<p>Let’s turn to the analysis of the consequences of trade integration in this model. We study the effect of a regional trade agreement (RTA) and aim to analyze how its enforcement has affected bilateral trade flows, prices, and real income, in comparison to a situation without this trade policy. It is important to understand this simple sentence before we enter the model. When we look at the data, we have a description of what has happened since the introduction of the RTA, but we do not have data on a “counterfactual” world where this agreement has not been implemented. This is precisely what we would like to have in order to clearly identify how this trade policy (and only it) has changed trade flows, prices, and real income. This kind of analysis enables an ex-post evaluation, quantifying the costs of undoing what has been achieved over all these years in terms of integration thanks to the RTA.</p>
+<p>We consider <span class="math inline">\(\tau_{ij}\)</span> as the level of trade costs in the current situation (e.g.&nbsp;with the RTA implemented) and use a superscript <span class="math inline">\(c\)</span> to characterize the counterfactual experiment, so <span class="math inline">\(\tau_{ij}^{c}\)</span> represents trade costs in a world without the RTA. We use a “dot”, e.g.&nbsp;<span class="math inline">\(\dot{\tau}_{ij}\)</span>, to represent the proportional change in a variable between its initial value and the counterfactual scenario, such as <span class="math inline">\(\dot{\tau}_{ij}\equiv\tau_{ij}^{c}/\tau_{ij}\)</span>, <span class="math inline">\(\dot{X}_{ij}\equiv X_{ij}^{c}/X_{ij}\)</span>, <span class="math inline">\(\dot{E}_{j}\equiv E_{j}^{c}/E_{j}\)</span>, <span class="math inline">\(\dot{\Omega}_{i}\equiv\Omega_{i}^{c}/\Omega_{i}\)</span> and so on.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
+<p>According to these notations, the General Equilibrium Trade Impact (GETI) of the trade policy on exports between <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> is defined from the structural gravity equation (<a href="#eq-structural" class="quarto-xref">Eq.&nbsp;13</a>) as follows:</p>
+<p><span id="eq-geti"><span class="math display">\[\dot{X}_{ij}=\dot{\tau}_{ij}^{1-\sigma}\frac{\dot{Y}_{i}}{\dot{\Omega}_{i}^{1-\sigma}}\frac{\dot{E}_{j}}{\dot{P}_{j}^{1-\sigma}} \tag{24}\]</span></span></p>
+<p>where <span class="math inline">\(\dot{\tau}_{ij}\)</span> is given from the estimation of (<a href="#eq-gravemp" class="quarto-xref">Eq.&nbsp;21</a>). To detail this, imagine that trade integration depends on distance and on the RTA, such that:</p>
+<p><span id="eq-tradecosts"><span class="math display">\[\tau_{ij}=\kappa\, RTA_{ij}+\rho\, Dist_{ij} \tag{25}\]</span></span></p>
+<p>where RTA is a dummy taking the value one for members and zero otherwise. Thus from the estimation of (<a href="#eq-gravemp" class="quarto-xref">Eq.&nbsp;21</a>) with our new definition of trade costs (<a href="#eq-tradecosts" class="quarto-xref">Eq.&nbsp;25</a>) we get <span class="math inline">\(\tau_{ij}=\exp[\hat{\kappa}RTA_{ij}+\hat{\rho}Dist_{ij}]\)</span>. In the counterfactual world there is no RTA, so <span class="math inline">\(\tau_{ij}^{c}=\exp[\hat{\rho}Dist_{ij}]\)</span>. These two expressions give, after simplification, <span class="math inline">\(\dot{\tau}_{ij}\equiv\tau_{ij}^{c}/\tau_{ij}=\exp[-\hat{\kappa}RTA_{ij}]\)</span> for members of the agreement. Obviously <span class="math inline">\(\dot{\tau}_{ij}=1\)</span> for non-members, because there is no change in their bilateral trade barriers, <span class="math inline">\(\tau_{ij}^{c}=\tau_{ij}\)</span>. This part of the equation measures what is called the <em>Partial Trade Impact</em> (PTI), since it does not take into account the effect of trade on MRs and incomes.</p>
+<p>The <em>Modular Trade Impact</em> (MTI), which takes into account MRs (but not income), is given in <a href="#eq-geti" class="quarto-xref">Eq.&nbsp;24</a> by <span class="math inline">\(\left[\dot{\tau}_{ij}/(\dot{\Omega}_{i}\dot{P}_{j})\right]^{1-\sigma}\)</span>. To compute this MTI, multilateral resistances <span class="math inline">\(\Omega_{i}\)</span> and <span class="math inline">\(P_{j}\)</span> are obtained exactly as described in the previous section: with <span class="math inline">\(\tau_{ij}=\exp[\hat{\kappa}RTA_{ij}+\hat{\rho}Dist_{ij}]\)</span> and data for income and expenditure (taken for a year, called the reference year) we solve the system of price indices using the SILS method. To get <span class="math inline">\(\Omega_{i}^{c}\)</span> and <span class="math inline">\(P_{j}^{c}\)</span> the exercise is done again, but this time with <span class="math inline">\(\tau_{ij}^{c}=\exp[\hat{\rho}Dist_{ij}]\)</span> (which is the only change; incomes are still taken in the same reference year). Finally, <span class="math inline">\(\dot{\Omega}_{i}\)</span> and <span class="math inline">\(\dot{P}_{j}\)</span> are given by the ratio of these two computations. Finally, the GETI, given by (<a href="#eq-geti" class="quarto-xref">Eq.&nbsp;24</a>), takes into account changes in income and expenditure, <span class="math inline">\(\dot{Y}_{i}\)</span> and <span class="math inline">\(\dot{E}_{j}\)</span>.</p>
+<p>To calculate these changes, we have to specify the factors of production, considering that the sole factor is labour, <span class="math inline">\(Y_{i}=w_{i}L_{i}\)</span>; then changes in incomes are determined by changes in wages only, <span class="math inline">\(\dot{w}=\dot{Y}\)</span>, by assuming no change in the labour force. Regarding expenditure, one needs to take into account trade deficits (see <span class="citation" data-cites="Dekle2008">Dekle et al. (<a href="#ref-Dekle2008" role="doc-biblioref">2008</a>)</span> for more details), which are introduced in an ad-hoc way by a parameter <span class="math inline">\(d_{j}\)</span> such that <span class="math inline">\(E_{j}=(1+d_{j})Y_{j}\)</span>. Since deficits are assumed constant, we get <span class="math inline">\(\dot{E}_{j}=\dot{w}_{j}=\dot{Y}_{j}\)</span>. Finally <span class="math inline">\(\dot{Y}_{j}\)</span> is given by:</p>
+<p><span id="eq-ydot"><span class="math display">\[\dot{Y}_{j}=\left[\sum_{i=1}^{n}\frac{\lambda_{ji}(\dot{\tau}_{ji}\dot{Y}_{j})^{1-\sigma}}{\sum_{l=1}\lambda_{li}(\dot{\tau}_{li}\dot{Y}_{l})^{1-\sigma}}\dot{Y}_{i}Y_{i}\right]/Y_{j}, \tag{26}\]</span></span></p>
+<p>with <span class="math inline">\(\lambda_{ji}\)</span> the share of expenditure of consumers in <span class="math inline">\(i\)</span> spent on goods produced in <span class="math inline">\(j\)</span>, such that <span class="math inline">\(\lambda_{ji}=X_{ji}/Y_{i}\)</span>, and <span class="math inline">\(\dot{\lambda}_{ji}\)</span> the change in this share due to the RTA, defined by:</p>
+<p><span id="eq-share"><span class="math display">\[\dot{\lambda}_{ji}=\frac{\left(\dot{\tau}_{ji}\dot{Y}_{j}\right)^{1-\sigma}}{\sum_{l=1}\lambda_{li}\left(\dot{\tau}_{li}\dot{Y}_{l}\right)^{1-\sigma}}. \tag{27}\]</span></span></p>
+<p>By using Shephard’s Lemma on <span class="math inline">\(P_{j}\)</span>, zero internal trade costs and the market clearing condition, <span class="citation" data-cites="Costinot2014">Costinot and Rodriguez-Clare (<a href="#ref-Costinot2014" role="doc-biblioref">2014</a>)</span> detail how the change in real consumption (<a href="#eq-realcons" class="quarto-xref">Eq.&nbsp;15</a>) only depends on the change in the relative price of imported versus domestic goods, namely <span class="math inline">\(\dot{\lambda}_{jj}\)</span> for consumers in <span class="math inline">\(j\)</span>.</p>
+<section id="sec-geti" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-geti"><span class="header-section-number">5.1</span> The effect of trade agreements</h2>
+<p>Let us put these three measures to work on real data, following <span class="citation" data-cites="Head2014">Head and Mayer (<a href="#ref-Head2014" role="doc-biblioref">2014</a>)</span>. The experiment is to remove <em>every</em> regional trade agreement in the world and ask what trade and real income would then look like. The data are the TradeProd database for the year 2000, restricted to the 84 countries for which we observe production, and therefore internal trade. Indeed, without the diagonal of internal flows in the trade matrix, there is no benchmark against which international flows can be measured, and no counterfactual can be computed. Trade costs are not re-estimated here; the coefficients are the median structural estimates of the meta-analysis in <span class="citation" data-cites="Head2014">Head and Mayer (<a href="#ref-Head2014" role="doc-biblioref">2014</a>)</span>, which gives <span class="math inline">\(\hat{\kappa}=0.28\)</span> for an RTA, and the trade elasticity is set to <span class="math inline">\(\epsilon=-5.03\)</span>. <a href="#tbl-geti" class="quarto-xref">Table&nbsp;3</a> reports the results.</p>
+<div id="tbl-geti" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-geti-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Partial, modular and general equilibrium impacts of trade agreements
+</figcaption>
+<div aria-describedby="tbl-geti-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">PTI</th>
+<th style="text-align: center;">MTI</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">GETI</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Welfare</th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Members</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RTA/FTA (all), <span class="math inline">\(\hat{\kappa}=0.28\)</span></td>
+<td style="text-align: center;">1.323</td>
+<td style="text-align: center;">1.129</td>
+<td style="text-align: center;">0.946</td>
+<td style="text-align: center;">1.205</td>
+<td style="text-align: center;">0.960</td>
+<td style="text-align: center;">1.011</td>
+<td style="text-align: center;">0.998</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="notes">
+<p><strong>Note:</strong> Median ratio of observed to counterfactual values, where the counterfactual removes all regional trade agreements. TradeProd data, year 2000, 84 countries, internal trade included. Trade cost coefficients from the meta-analysis of <span class="citation" data-cites="Head2014">Head and Mayer (<a href="#ref-Head2014" role="doc-biblioref">2014</a>)</span>; trade elasticity <span class="math inline">\(\epsilon=-5.03\)</span>. “Yes” columns are computed over country pairs that have an agreement, “No” columns over pairs that do not. A value above one means the agreements raised the variable. <strong>Reading:</strong> agreements raise members’ trade by 32% when only their own trade costs are allowed to move, but by 13% once multilateral resistances adjust and by 21% once incomes adjust as well. Pairs <em>without</em> an agreement trade 5% less than they would in a world without any agreement at all.</p>
+</div>
+<p>Three lessons emerge, and each corresponds to one of the tools built in this course. The first concerns the size of the multilateral adjustment. The partial impact says that an agreement raises trade between its members by 32%, since <span class="math inline">\(\exp(0.28)-1\approx0.32\)</span>. Allowing the price indices to respond cuts this to 13%. Almost two thirds of the partial effect therefore disappears once we respect the general equilibrium constraints of the model, which is exactly the warning of <span class="citation" data-cites="Anderson2003">Anderson and Van Wincoop (<a href="#ref-Anderson2003" role="doc-biblioref">2003</a>)</span> and the reason the naive gravity equation (<a href="#eq-naive" class="quarto-xref">Eq.&nbsp;1</a>) overstates what trade policy achieves. The mechanism is the one we saw with three countries: removing the agreements makes members more remote from everybody, which raises their multilateral resistances and, mechanically, their trade with one another. That offsets part of the direct loss.</p>
+<p>The second lesson is that countries which signed nothing are affected all the same. For pairs without an agreement the ratio is 0.946: they trade about 5% less than they would if no agreement existed anywhere in the world. Nothing changed in their own bilateral costs, so this is entirely a third-country effect — the same effect we illustrated numerically in <a href="#fig-third" class="quarto-xref">Figure&nbsp;2</a>, now measured on data. It is also <span class="citation" data-cites="Viner1954">Viner (<a href="#ref-Viner1954" role="doc-biblioref">1954</a>)</span>’s trade diversion, and it is invisible to an econometrician who estimates <a href="#eq-naive" class="quarto-xref">Eq.&nbsp;1</a> without multilateral resistance terms.</p>
+<p>The third lesson is that large trade effects need not mean large welfare effects. Members gain 1.1% of real income and non-members lose 0.2%, against trade effects an order of magnitude bigger. The reason is the one given below <a href="#eq-share" class="quarto-xref">Eq.&nbsp;27</a>: welfare depends only on the change in the share a country spends on its own goods, <span class="math inline">\(\dot{\lambda}_{jj}\)</span>. Most countries buy most of what they consume at home, so even a large proportional change in trade with one partner moves that share very little.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> Notice also that the income adjustment works in the opposite direction to the multilateral one: the GETI, at 1.205, is <em>above</em> the MTI, because members are richer with their agreements than without them, and richer countries trade more.</p>
+<p><strong>Exercise.</strong> Upload from the course website the folder “Exercices/A4_GE”. In “code” you will find a single R script, “pti_mti_geti.R”.</p>
+<ol type="1">
+<li>Read this script beside the equations of this section, and identify the line that implements each of them: the contraction mapping of (<a href="#eq-mr1" class="quarto-xref">Eq.&nbsp;12</a>) and (<a href="#eq-mr2" class="quarto-xref">Eq.&nbsp;14</a>), the partial impact of (<a href="#eq-tradecosts" class="quarto-xref">Eq.&nbsp;25</a>), and the income update of (<a href="#eq-ydot" class="quarto-xref">Eq.&nbsp;26</a>).</li>
+<li>Run it and check that you obtain <a href="#tbl-geti" class="quarto-xref">Table&nbsp;3</a>.</li>
+<li>Comment on the results about the PTI, MTI and GETI.</li>
+<li>Change the experiment: instead of removing all agreements, remove only the European Union, or double the coefficient <span class="math inline">\(\hat{\kappa}\)</span>. Which of the three measures moves most, and why?</li>
+</ol>
+<p>For your own research you will not want to write this code yourself. The <code>gegravity</code> package of <span class="citation" data-cites="Herman2021">Herman (<a href="#ref-Herman2021" role="doc-biblioref">2021</a>)</span> implements the same class of counterfactual in Python, and <span class="citation" data-cites="Yotov2016">Yotov et al. (<a href="#ref-Yotov2016" role="doc-biblioref">2016</a>)</span> provide a full course, with data and programs, on structural gravity and its general equilibrium analysis.</p>
+</section>
+</section>
+<section id="concluding-remarks" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Concluding remarks</h1>
+<p>In recent years, many structural estimations of the gravity equation and realistic simulation exercises have been carried out. We only scratch the surface here, but if you have well understood what has been presented, you are equipped to investigate the current and future literature.</p>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Anderson2018" class="csl-entry" role="listitem">
+Anderson, James E., Mario Larch, and Yoto V. Yotov. 2018. <span>“GEPPML: General Equilibrium Analysis with PPML.”</span> <em>The World Economy</em> 41 (10): 2750–82. <a href="https://doi.org/10.1111/twec.12664">https://doi.org/10.1111/twec.12664</a>.
+</div>
+<div id="ref-Anderson2003" class="csl-entry" role="listitem">
+Anderson, James E, and Eric Van Wincoop. 2003. <span>“Gravity with Gravitas: A Solution to the Border Puzzle.”</span> <em>American Economic Review</em> 93 (1): 170–92.
+</div>
+<div id="ref-Anderson2010" class="csl-entry" role="listitem">
+Anderson, James E, and Yoto V Yotov. 2010. <span>“The Changing Incidence of Geography.”</span> <em>American Economic Review</em> 100 (5): 2157–86.
+</div>
+<div id="ref-Armington1969" class="csl-entry" role="listitem">
+Armington, Paul S. 1969. <span>“A Theory of Demand for Products Distinguished by Place of Production.”</span> <em>Staff Papers - International Monetary Fund</em> 16 (1): 159. <a href="https://doi.org/10.2307/3866403">https://doi.org/10.2307/3866403</a>.
+</div>
+<div id="ref-Baier2007" class="csl-entry" role="listitem">
+Baier, Scott L., and Jeffrey H. Bergstrand. 2007. <span>“Do Free Trade Agreements Actually Increase Members<span>'</span> International Trade?”</span> <em>Journal of International Economics</em> 71 (1): 72–95. <a href="https://doi.org/10.1016/j.jinteco.2006.02.005">https://doi.org/10.1016/j.jinteco.2006.02.005</a>.
+</div>
+<div id="ref-Baier2009" class="csl-entry" role="listitem">
+Baier, Scott L., and Jeffrey H. Bergstrand. 2009. <span>“Bonus Vetus OLS: A Simple Method for Approximating International Trade-Cost Effects Using the Gravity Equation.”</span> <em>Journal of International Economics</em> 77 (1): 77–85. <a href="https://doi.org/10.1016/j.jinteco.2008.10.004">https://doi.org/10.1016/j.jinteco.2008.10.004</a>.
+</div>
+<div id="ref-Baldwin2007" class="csl-entry" role="listitem">
+Baldwin, Richard, and Daria Taglioni. 2007. <span>“Trade Effects of the Euro: A Comparison of Estimators.”</span> <em>Journal of Economic Integration</em> 22 (4): 780–818. <a href="https://doi.org/10.11130/jei.2007.22.4.780">https://doi.org/10.11130/jei.2007.22.4.780</a>.
+</div>
+<div id="ref-Balistreri2005" class="csl-entry" role="listitem">
+Balistreri, Edward J. 2005. <em>A Note on the Local and Global Consistency of Anderson and van Wincoop Gravity Model.</em> Mimeo.
+</div>
+<div id="ref-Behrens2010" class="csl-entry" role="listitem">
+Behrens, Kristian, Cem Ertur, and Wilfried Koch. 2010. <span>“Dual Gravity: Using Spatial Econometrics to Control for Multilateral Resistance.”</span> <em>Journal of Applied Econometrics</em> 27 (5): 773–94. <a href="https://doi.org/10.1002/jae.1231">https://doi.org/10.1002/jae.1231</a>.
+</div>
+<div id="ref-Behrens2014" class="csl-entry" role="listitem">
+Behrens, Kristian, Giordano Mion, Yasusada Murata, and Jens Sudekum. 2014. <span>“Trade, Wages and Productivity.”</span> <em>International Economic Review</em> 55 (4): 1305–48. <a href="https://doi.org/10.1111/iere.12091">https://doi.org/10.1111/iere.12091</a>.
+</div>
+<div id="ref-BorusyakJaravelSpiess2024" class="csl-entry" role="listitem">
+Borusyak, Kirill, Xavier Jaravel, and Jann Spiess. 2024. <span>“Revisiting Event-Study Designs: Robust and Efficient Estimation.”</span> <em>Review of Economic Studies</em> 91 (6). <a href="https://doi.org/10.1093/restud/rdae007">https://doi.org/10.1093/restud/rdae007</a>.
+</div>
+<div id="ref-Broda2017" class="csl-entry" role="listitem">
+Broda, Christian, Joshua Greenfield, and David E. Weinstein. 2017. <span>“From Groundnuts to Globalization: A Structural Estimate of Trade and Growth.”</span> <em>Research in Economics</em> 71 (4): 759–83. <a href="https://doi.org/10.1016/j.rie.2017.10.001">https://doi.org/10.1016/j.rie.2017.10.001</a>.
+</div>
+<div id="ref-Caliendo2014" class="csl-entry" role="listitem">
+Caliendo, L., and F. Parro. 2014. <span>“Estimates of the Trade and Welfare Effects of NAFTA.”</span> <em>The Review of Economic Studies</em> 82 (1): 1–44. <a href="https://doi.org/10.1093/restud/rdu035">https://doi.org/10.1093/restud/rdu035</a>.
+</div>
+<div id="ref-CallawaySantAnna2021" class="csl-entry" role="listitem">
+Callaway, Brantly, and Pedro H. C. Sant’Anna. 2021. <span>“Difference-in-Differences with Multiple Time Periods.”</span> <em>Journal of Econometrics</em> 225 (2): 200–230. <a href="https://doi.org/10.1016/j.jeconom.2020.12.001">https://doi.org/10.1016/j.jeconom.2020.12.001</a>.
+</div>
+<div id="ref-Caron2014" class="csl-entry" role="listitem">
+Caron, Justin, Thibault Fally, and James R. Markusen. 2014. <span>“International Trade Puzzles: A Solution Linking Production and Preferences *.”</span> <em>The Quarterly Journal of Economics</em> 129 (3): 1501–52. <a href="https://doi.org/10.1093/qje/qju010">https://doi.org/10.1093/qje/qju010</a>.
+</div>
+<div id="ref-deChaisemartin2020" class="csl-entry" role="listitem">
+Chaisemartin, Clément de, and Xavier D’Haultfœuille. 2020. <span>“Two-Way Fixed Effects Estimators with Heterogeneous Treatment Effects.”</span> <em>American Economic Review</em> 110 (9): 2964–96. <a href="https://doi.org/10.1257/aer.20181169">https://doi.org/10.1257/aer.20181169</a>.
+</div>
+<div id="ref-Chaney2008" class="csl-entry" role="listitem">
+Chaney, Thomas. 2008. <span>“Distorted Gravity: The Intensive and Extensive Margins of International Trade.”</span> <em>American Economic Review</em> 98 (4): 1707–21. <a href="https://doi.org/10.1257/aer.98.4.1707">https://doi.org/10.1257/aer.98.4.1707</a>.
+</div>
+<div id="ref-Conte2022" class="csl-entry" role="listitem">
+Conte, Maddalena, Pierre Cotterlaz, and Thierry Mayer. 2022. <em>The CEPII Gravity Database</em>.
+</div>
+<div id="ref-Costinot2014" class="csl-entry" role="listitem">
+Costinot, Arnaud, and Andrés Rodriguez-Clare. 2014. <span>“Trade Theory with Numbers: Quantifying the Consequences of Globalization.”</span> In <em>Handbook of International Economics</em>, vol. 4. Elsevier.
+</div>
+<div id="ref-DaiYotovZylkin2014" class="csl-entry" role="listitem">
+Dai, Mian, Yoto V. Yotov, and Thomas Zylkin. 2014. <span>“On the Trade-Diversion Effects of Free Trade Agreements.”</span> <em>Economics Letters</em> 122 (2): 321–25. <a href="https://doi.org/10.1016/j.econlet.2013.12.024">https://doi.org/10.1016/j.econlet.2013.12.024</a>.
+</div>
+<div id="ref-Dekle2008" class="csl-entry" role="listitem">
+Dekle, Robert, Jonathan Eaton, and Samuel Kortum. 2008. <em>Global Rebalancing with Gravity: Measuring the Burden of Adjustment</em>. National Bureau of Economic Research. <a href="https://doi.org/10.3386/w13846">https://doi.org/10.3386/w13846</a>.
+</div>
+<div id="ref-Dhingra2017" class="csl-entry" role="listitem">
+Dhingra, Swati, Hanwei Huang, Gianmarco Ottaviano, João Paulo Pessoa, Thomas Sampson, and John Van Reenen. 2017. <span>“The Costs and Benefits of Leaving the <span>EU</span>: Trade Effects.”</span> <em>Economic Policy</em> 32 (92): 651–705. <a href="https://doi.org/10.1093/epolic/eix015">https://doi.org/10.1093/epolic/eix015</a>.
+</div>
+<div id="ref-Dornbusch1977" class="csl-entry" role="listitem">
+Dornbusch, Rudiger, Stanley Fischer, and Paul Anthony Samuelson. 1977. <span>“Comparative Advantage, Trade, and Payments in a Ricardian Model with a Continuum of Goods.”</span> <em>The American Economic Review</em> 67 (5): 823–39.
+</div>
+<div id="ref-Eaton2002" class="csl-entry" role="listitem">
+Eaton, Jonathan, and Samuel Kortum. 2002. <span>“Technology, Geography, and Trade.”</span> <em>Econometrica</em> 70 (5): 1741–79. <a href="https://doi.org/10.1111/1468-0262.00352">https://doi.org/10.1111/1468-0262.00352</a>.
+</div>
+<div id="ref-Fajgelbaum2016" class="csl-entry" role="listitem">
+Fajgelbaum, Pablo D., and Amit K. Khandelwal. 2016. <span>“Measuring the Unequal Gains from Trade *.”</span> <em>The Quarterly Journal of Economics</em> 131 (3): 1113–80. <a href="https://doi.org/10.1093/qje/qjw013">https://doi.org/10.1093/qje/qjw013</a>.
+</div>
+<div id="ref-Fally2015" class="csl-entry" role="listitem">
+Fally, Thibault. 2015. <span>“Structural Gravity and Fixed Effects.”</span> <em>Journal of International Economics</em> 97 (1): 76–85. <a href="https://doi.org/10.1016/j.jinteco.2015.05.005">https://doi.org/10.1016/j.jinteco.2015.05.005</a>.
+</div>
+<div id="ref-Fieler2011" class="csl-entry" role="listitem">
+Fieler, Ana. 2011. <span>“Nonhomotheticity and Bilateral Trade: Evidence and a Quantitative Explanation.”</span> <em>Econometrica</em> 79 (4): 1069–101. <a href="https://doi.org/10.3982/ecta8346">https://doi.org/10.3982/ecta8346</a>.
+</div>
+<div id="ref-Glick2002" class="csl-entry" role="listitem">
+Glick, Reuven, and Andrew K. Rose. 2002. <span>“Does a Currency Union Affect Trade? The Time-Series Evidence.”</span> <em>European Economic Review</em> 46 (6): 1125–51. <a href="https://doi.org/10.1016/s0014-2921(01)00202-1">https://doi.org/10.1016/s0014-2921(01)00202-1</a>.
+</div>
+<div id="ref-GoodmanBacon2021" class="csl-entry" role="listitem">
+Goodman-Bacon, Andrew. 2021. <span>“Difference-in-Differences with Variation in Treatment Timing.”</span> <em>Journal of Econometrics</em> 225 (2): 254–77. <a href="https://doi.org/10.1016/j.jeconom.2021.03.014">https://doi.org/10.1016/j.jeconom.2021.03.014</a>.
+</div>
+<div id="ref-Head2014" class="csl-entry" role="listitem">
+Head, Keith, and Thierry Mayer. 2014. <span>“Gravity Equations: Workhorse, Toolkit, and Cookbook.”</span> In <em>Handbook of International Economics</em>, vol. 4. Elsevier.
+</div>
+<div id="ref-Head2001" class="csl-entry" role="listitem">
+Head, Keith, and John Ries. 2001. <span>“Increasing Returns Versus National Product Differentiation as an Explanation for the Pattern of US Canada Trade.”</span> <em>American Economic Review</em> 91 (4): 858–76. <a href="https://doi.org/10.1257/aer.91.4.858">https://doi.org/10.1257/aer.91.4.858</a>.
+</div>
+<div id="ref-HeidLarchYotov2021" class="csl-entry" role="listitem">
+Heid, Benedikt, Mario Larch, and Yoto V. Yotov. 2021. <span>“Estimating the Effects of Non-Discriminatory Trade Policies Within Structural Gravity Models.”</span> <em>Canadian Journal of Economics/Revue Canadienne d’économique</em> 54 (1): 376–409. <a href="https://doi.org/10.1111/caje.12493">https://doi.org/10.1111/caje.12493</a>.
+</div>
+<div id="ref-Herman2021" class="csl-entry" role="listitem">
+Herman, Peter. 2021. <span>“Gegravity: General Equilibrium Gravity Modeling in Python.”</span> <em>SSRN Electronic Journal</em>, ahead of print. <a href="https://doi.org/10.2139/ssrn.3832208">https://doi.org/10.2139/ssrn.3832208</a>.
+</div>
+<div id="ref-Larch2025" class="csl-entry" role="listitem">
+Larch, Mario, José-Antonio Monteiro, Roberta Piermartini, and Yoto V. Yotov. 2025. <span>“On the Trade Effects of <span>GATT</span>/<span>WTO</span> Membership: They Are Positive and Large After All.”</span> <em>Canadian Journal of Economics/Revue Canadienne d’économique</em> 58 (1). <a href="https://doi.org/10.1111/caje.12755">https://doi.org/10.1111/caje.12755</a>.
+</div>
+<div id="ref-LarchYotov2024" class="csl-entry" role="listitem">
+Larch, Mario, and Yoto V. Yotov. 2024. <span>“Estimating the Effects of Trade Agreements: Lessons from 60 Years of Methods and Data.”</span> <em>The World Economy</em> 47 (5): 1771–99. <a href="https://doi.org/10.1111/twec.13569">https://doi.org/10.1111/twec.13569</a>.
+</div>
+<div id="ref-Linder1961" class="csl-entry" role="listitem">
+Linder, Staffan B. 1961. <span>“An Essay on Trade and Transformation.”</span> <em>Almqvist and Wiksells</em>.
+</div>
+<div id="ref-Markusen2013" class="csl-entry" role="listitem">
+Markusen, James R. 2013. <span>“Putting Per-Capita Income Back into Trade Theory.”</span> <em>Journal of International Economics</em> 90 (2): 255–65. <a href="https://doi.org/10.1016/j.jinteco.2013.04.003">https://doi.org/10.1016/j.jinteco.2013.04.003</a>.
+</div>
+<div id="ref-Mayer2019" class="csl-entry" role="listitem">
+Mayer, Thierry, Vincent Vicard, and Soledad Zignago. 2019a. <span>“The Cost of Non-Europe Revisited.”</span> <em>Economic Policy</em> 34 (98): 145–99.
+</div>
+<div id="ref-Mayer2019a" class="csl-entry" role="listitem">
+Mayer, Thierry, Vincent Vicard, and Soledad Zignago. 2019b. <span>“The Cost of Non-Europe Revisited.”</span> <em>Economic Policy</em> 34 (98): 145–99. <a href="https://doi.org/10.1093/epolic/eiz002">https://doi.org/10.1093/epolic/eiz002</a>.
+</div>
+<div id="ref-McCallum1995" class="csl-entry" role="listitem">
+McCallum, John. 1995. <span>“National Borders Matter: Canada-US Regional Trade Patterns.”</span> <em>The American Economic Review</em> 85 (3): 615–23.
+</div>
+<div id="ref-NagengastYotov2025" class="csl-entry" role="listitem">
+Nagengast, Arne J., and Yoto V. Yotov. 2025. <span>“Staggered Difference-in-Differences in Gravity Settings: Revisiting the Effects of Trade Agreements.”</span> <em>American Economic Journal: Applied Economics</em> 17 (1): 271–96. <a href="https://doi.org/10.1257/app.20230089">https://doi.org/10.1257/app.20230089</a>.
+</div>
+<div id="ref-Nitsch2002" class="csl-entry" role="listitem">
+Nitsch, Volker. 2002. <span>“Honey, i Shrunk the Currency Union Effect on Trade.”</span> <em>The World Economy</em> 25 (4): 457–74. <a href="https://doi.org/10.1111/1467-9701.00443">https://doi.org/10.1111/1467-9701.00443</a>.
+</div>
+<div id="ref-Novy2013" class="csl-entry" role="listitem">
+Novy, Dennis. 2013. <span>“International Trade Without CES: Estimating Translog Gravity.”</span> <em>Journal of International Economics</em> 89 (2): 271–82. <a href="https://doi.org/10.1016/j.jinteco.2012.08.010">https://doi.org/10.1016/j.jinteco.2012.08.010</a>.
+</div>
+<div id="ref-Redding2004" class="csl-entry" role="listitem">
+Redding, Stephen, and Anthony J. Venables. 2004. <span>“Economic Geography and International Inequality.”</span> <em>Journal of International Economics</em> 62 (1): 53–82. <a href="https://doi.org/10.1016/j.jinteco.2003.07.001">https://doi.org/10.1016/j.jinteco.2003.07.001</a>.
+</div>
+<div id="ref-Rose2000" class="csl-entry" role="listitem">
+Rose, A. K. 2000. <span>“One Money, One Market: The Effect of Common Currencies on Trade.”</span> <em>Economic Policy</em> 15 (30): 8–0. <a href="https://doi.org/10.1111/1468-0327.00056">https://doi.org/10.1111/1468-0327.00056</a>.
+</div>
+<div id="ref-Rose2004" class="csl-entry" role="listitem">
+Rose, Andrew K. 2004. <span>“Do We Really Know That the WTO Increases Trade?”</span> <em>American Economic Review</em> 94 (1): 98–114.
+</div>
+<div id="ref-Silva2006" class="csl-entry" role="listitem">
+Santos Silva, JMC, and Silvana Tenreyro. 2006. <span>“The Log of Gravity.”</span> <em>The Review of Economics and Statistics</em> 88 (4): 641–58.
+</div>
+<div id="ref-Sousa2012" class="csl-entry" role="listitem">
+Sousa, Jose de. 2012. <span>“The Currency Union Effect on Trade Is Decreasing over Time.”</span> <em>Economics Letters</em> 117 (3): 917–20. <a href="https://doi.org/10.1016/j.econlet.2012.07.009">https://doi.org/10.1016/j.econlet.2012.07.009</a>.
+</div>
+<div id="ref-SunAbraham2021" class="csl-entry" role="listitem">
+Sun, Liyang, and Sarah Abraham. 2021. <span>“Estimating Dynamic Treatment Effects in Event Studies with Heterogeneous Treatment Effects.”</span> <em>Journal of Econometrics</em> 225 (2): 175–99. <a href="https://doi.org/10.1016/j.jeconom.2020.09.006">https://doi.org/10.1016/j.jeconom.2020.09.006</a>.
+</div>
+<div id="ref-Tinbergen1962" class="csl-entry" role="listitem">
+Tinbergen, Jan. 1962. <span>“Shaping the World Economy: Suggestions for an International Economic Policy.”</span> <em>The Twentieth Century Fund</em>.
+</div>
+<div id="ref-Tomz2007" class="csl-entry" role="listitem">
+Tomz, Michael, Judith L Goldstein, and Douglas Rivers. 2007. <span>“Do We Really Know That the WTO Increases Trade? Comment.”</span> <em>American Economic Review</em> 97 (5): 2005–18.
+</div>
+<div id="ref-Trefler1995" class="csl-entry" role="listitem">
+Trefler, Daniel. 1995. <span>“The Case of the Missing Trade and Other Mysteries.”</span> <em>The American Economic Review</em>, 1029–46.
+</div>
+<div id="ref-VicqueryRoger2021" class="csl-entry" role="listitem">
+Vicquery, Roger. 2021. <span>“The Common Currency Effect on International Trade: Evidence from an Accidental Monetary Union.”</span> <em>SSRN Electronic Journal</em>, ahead of print. <a href="https://doi.org/10.2139/ssrn.4028512">https://doi.org/10.2139/ssrn.4028512</a>.
+</div>
+<div id="ref-Viner1954" class="csl-entry" role="listitem">
+Viner, Jacob. 1954. <em>The Customs Union Issue</em>. Oxford University Press, USA.
+</div>
+<div id="ref-Wooldridge2021" class="csl-entry" role="listitem">
+Wooldridge, Jeffrey M. 2021. <span>“Two-Way Fixed Effects, the Two-Way Mundlak Regression, and Difference-in-Differences Estimators.”</span> <a href="https://doi.org/10.2139/ssrn.3906345">https://doi.org/10.2139/ssrn.3906345</a>.
+</div>
+<div id="ref-Wooldridge2023" class="csl-entry" role="listitem">
+Wooldridge, Jeffrey M. 2023. <span>“Simple Approaches to Nonlinear Difference-in-Differences with Panel Data.”</span> <em>The Econometrics Journal</em> 26 (3): C31–66. <a href="https://doi.org/10.1093/ectj/utad016">https://doi.org/10.1093/ectj/utad016</a>.
+</div>
+<div id="ref-Yotov2022" class="csl-entry" role="listitem">
+Yotov, Yoto V. 2022. <span>“On the Role of Domestic Trade Flows for Estimating the Gravity Model of Trade.”</span> <em>Contemporary Economic Policy</em> 40 (3): 526–40. <a href="https://doi.org/10.1111/coep.12567">https://doi.org/10.1111/coep.12567</a>.
+</div>
+<div id="ref-Yotov2016" class="csl-entry" role="listitem">
+Yotov, Yoto V, Jose Monteiro, Roberta Piermartini, and Mario Larch. 2016. <em>An Advanced Guide to Trade Policy Analysis</em>. WTO iLibrary.
+</div>
+</div>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Gravity equations had been tested previously in other fields. The first author to apply gravity to economics is perhaps Carey (1858), who considered that migrations follow the law of gravitation. He is quite radical in claiming: “Man, the molecule of society, is the subject of Social Science…. The great law of Molecular Gravitation is the indispensable condition of the existence of the being known as man…. The greater the number collected in a given space, the greater is the attractive force that is exercised…. Gravitation is here, as everywhere, in the direct ratio of the mass, and the inverse one of distance.” Quoting from Gallup (1997).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>See <span class="citation" data-cites="Head2014">Head and Mayer (<a href="#ref-Head2014" role="doc-biblioref">2014</a>)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Why different software? No particular reason, just to prepare students to jump from one software to another.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>However, <span class="citation" data-cites="VicqueryRoger2021">Vicquery (<a href="#ref-VicqueryRoger2021" role="doc-biblioref">2021</a>)</span> has succeeded in finding an “accidental monetary union” and shows that the effect is still strong in that case, without selection bias.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><span class="citation" data-cites="NagengastYotov2025">Nagengast and Yotov (<a href="#ref-NagengastYotov2025" role="doc-biblioref">2025</a>)</span> report these imbalances and add a specification in the spirit of regression adjustment that relaxes the parallel-trends requirement.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Yotov maintains an extensive gravity reading list and replication codes at <a href="https://yotoyotov.com/Gravity_Readings.pdf" class="uri">https://yotoyotov.com/Gravity_Readings.pdf</a>, and the replication package for <span class="citation" data-cites="NagengastYotov2025">Nagengast and Yotov (<a href="#ref-NagengastYotov2025" role="doc-biblioref">2025</a>)</span> (Stata, built on the <code>jwdid</code> command) is available on openICPSR at <a href="https://www.openicpsr.org/openicpsr/project/194561/" class="uri">https://www.openicpsr.org/openicpsr/project/194561/</a>. <span class="citation" data-cites="LarchYotov2024">Larch and Yotov (<a href="#ref-LarchYotov2024" role="doc-biblioref">2024</a>)</span> review sixty years of estimates of the effect of trade agreements.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>To be precise, AvW make an additional assumption that simplifies the analysis. Indeed, from <a href="#eq-mr1" class="quarto-xref">Eq.&nbsp;12</a> and <a href="#eq-mr2" class="quarto-xref">Eq.&nbsp;14</a> it is clear that <span class="math inline">\(\Omega_{i}=P_{i}\)</span> is a solution for the price index equations, which gives the gravity equation of AvW: <span class="math inline">\(X_{ij}=\frac{Y_{i}Y_{j}}{Y^{w}}\tau_{ij}^{1-\sigma}\frac{1}{P_{i}^{1-\sigma}P_{j}^{1-\sigma}}\)</span> with <span class="math inline">\(P_{j}^{1-\sigma}=\sum_{i=1}^{R}P_{i}^{\sigma-1}s_{y_{i}}\tau_{ij}^{1-\sigma}\)</span>. But the particular normalization that allows one to obtain <span class="math inline">\(\Omega_{i}=P_{i}\)</span> is mainly appropriate to cross-section data and not to panel analysis (see <span class="citation" data-cites="Baldwin2007">Baldwin and Taglioni (<a href="#ref-Baldwin2007" role="doc-biblioref">2007</a>)</span> and <span class="citation" data-cites="Balistreri2005">Balistreri (<a href="#ref-Balistreri2005" role="doc-biblioref">2005</a>)</span> for discussions).<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><span class="citation" data-cites="Eaton2002">Eaton and Kortum (<a href="#ref-Eaton2002" role="doc-biblioref">2002</a>)</span> aim to take into account spatial features and technological differences. Space matters to explain that trade falls with distance and to consider spatial price differences. Technological differences matter for non-equalisation of factor rewards and differences in productivity between industries. The Ricardian model proposed extends <span class="citation" data-cites="Dornbusch1977">Dornbusch et al. (<a href="#ref-Dornbusch1977" role="doc-biblioref">1977</a>)</span> to many countries by assuming that technologies are drawn according to a Fréchet distribution. The model emphasizes the relationship between trade costs, intermediate inputs and the size of countries. In particular, the authors “scratch beneath the surface of the gravity equation to uncover the structural parameters governing the roles of technology and geography in trade”. They find that on average home sales face internal costs that are 45% smaller than trade barriers with the closest partners. Entry into the most protectionist country of the sample, Greece, costs 33% more than into the average country.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>More precisely, <span class="citation" data-cites="Anderson2010">Anderson and Yotov (<a href="#ref-Anderson2010" role="doc-biblioref">2010</a>)</span> work with a model with <span class="math inline">\(k\)</span> types of goods, so they have several <span class="math inline">\(\sigma_{k}\)</span> to set. They use estimates of the elasticity of substitution at the commodity level from a working paper version of <span class="citation" data-cites="Broda2017">Broda et al. (<a href="#ref-Broda2017" role="doc-biblioref">2017</a>)</span>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>The literature usually works with a “hat”, a notation used here to denote the predicted value of coefficients.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p><span class="citation" data-cites="Head2014">Head and Mayer (<a href="#ref-Head2014" role="doc-biblioref">2014</a>)</span> stress that these welfare figures are meant to expose the method rather than to be definitive. The framework has no sectoral heterogeneity in <span class="math inline">\(\epsilon\)</span> and no input-output linkages, both of which matter; see <span class="citation" data-cites="Costinot2014">Costinot and Rodriguez-Clare (<a href="#ref-Costinot2014" role="doc-biblioref">2014</a>)</span>.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
