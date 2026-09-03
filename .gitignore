@@ -11,3 +11,8 @@ Lecture/*.log
 Lecture/*.aux
 Lecture/*.lyx~
 Lecture/.Rhistory
+
+# The compiled deck is published; its source, images and the old .pptx are not.
+!/Slides/
+/Slides/*
+!/Slides/gravity.pdf
