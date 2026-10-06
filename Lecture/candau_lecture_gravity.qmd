@@ -63,7 +63,7 @@ Through this equation Newton (1687) ensures that an object $i$ attracts another 
 
 We are going to start this course by estimating the ad-hoc gravity equation (@eq-naive). This estimation is now easy since many institutions, like CEPII, provide datasets that contain every variable that is needed. However, you'll really learn how to code by doing this yourself and by starting from scratch. Indeed, a gravity estimation requires gathering data that are defined on a bilateral basis (trade flows from $i$ to $j$) and over time (for several years $t$); this is a very complete exercise that will be useful for you in many other applications.
 
-**Exercise.** Use the software you want (STATA, R, Python, SAS, etc.) to complete the following exercise, based on the dataset provided on the course website in the folder "Exercices/A1_scratch". The correction is done with R in the file "grav_eng.Rmd" (available on request; I also have it in STATA and SAS).
+**Exercise.** Use the software you want (STATA, R, Python, SAS, etc.) to complete the following exercise, based on the dataset provided on Elearn in the folder "Exercices/A1_scratch". The correction is done with R in the file "grav_eng.Rmd" (available on request; I also have it in STATA and SAS).
 
 1.  Merge the two bilateral databases, "dist" and "baci_agg.sas7bdat", that provide bilateral distances and bilateral trade flows. Alas, you will face a first problem: in the BACI database, countries are named by numbers, whereas in the "dist" database they are named by letters only. To merge these two tables, you will need a mapping table. This correspondence table is in the "total2.xls" file, in the sheet "correspays". You'll see along the way that other problems await you.
 2.  Merge GDPs, both for country $i$ and country $j$, available in "total2.xls", sheet "pib".
@@ -95,7 +95,7 @@ $$X_{ijt}=\exp\left[f_{it}+f_{jt}+\kappa\tau_{ij}+\alpha\right]\epsilon_{ijt},$$
 
 where $f_{it}$ and $f_{jt}$ are fixed effects and $\tau_{ij}$ is a vector of trade costs. Authors often use distance between partners and bilateral dummies to reduce endogeneity bias, such as common language, past colonial links, but also time-varying dummies such as the date of entry and exit of countries in an RTA, and so on.
 
-**Exercise.** Upload from the course website the folder "Exercices/A2_gravity"; there are three folders: "input" that contains the data, "output" where results are stored, and "code". Everything is in R. Go into "code": 1) read and comment the script "data_processing.R", which builds the estimation sample from the raw CEPII data; look closely at the section on trade agreements, where the policy dummies are made mutually exclusive, since this is what decides the meaning of each coefficient in the table, 2) read and comment the script "estimation.R", 3) run the "master.R" file and comment the results.
+**Exercise.** Upload from Elearn the folder "Exercices/A2_gravity"; there are three folders: "input" that contains the data, "output" where results are stored, and "code". Everything is in R. Go into "code": 1) read and comment the script "data_processing.R", which builds the estimation sample from the raw CEPII data; look closely at the section on trade agreements, where the policy dummies are made mutually exclusive, since this is what decides the meaning of each coefficient in the table, 2) read and comment the script "estimation.R", 3) run the "master.R" file and comment the results.
 
 To estimate the gravity equation, we use the dataset "gravity" from the CEPII, compiled by @Conte2022. We also add data on customs unions from @Sousa2012. Dummies on entry in the European Economic Community (EEC) (and another dummy for Europe) are computed from the code of @Mayer2019.
 
@@ -202,6 +202,10 @@ Applied to the WTO Structural Gravity Database (manufacturing trade, 1980--2016,
 :::
 
 Two further lessons are worth keeping. First, the event study shows the effect is not only larger but **spread over a longer horizon**: RTAs keep raising trade for many years and the static TWFE compresses this into the early years. Second, because anticipation contaminates the years just before entry into force, @NagengastYotov2025 date the treatment **onset three years before** the agreement legally enters into force. The correction generalises well beyond RTAs; the same logic applies to any staggered gravity policy (WTO accession, currency unions, sanctions) and to gravity equations for migration or FDI flows.
+
+**Exercise.** Upload from Elearn the folder "Exercices/A2_gravity_stag", which reproduces the two columns of @tbl-etwfe. It has the same three folders as the previous exercise, "input", "output" and "code", and everything is in R. The data are too large for Elearn and are on Dropbox as "A2_gravity_stag_data.zip"; unzip that file inside the exercise folder and the paths will work as they are. Go into "code": 1) read and comment "10_data_preparation.R", paying attention to how the onset date is built three years before the agreement enters into force, and to which country pairs are excluded, 2) read and comment "30_table_etwfe.R", where the single RTA dummy of @eq-rta-twfe is replaced by the cohort-by-year dummies of @eq-etwfe and the cell effects are then aggregated with the weights of @eq-etwfe-agg, 3) run "master.R" and compare your table with @tbl-etwfe.
+
+The exercise is also worth doing for a reason that has nothing to do with staggered treatment. A country pair tells us something about the effect of an agreement only if we observe it *before* the agreement starts. Pairs that are already treated the first year they appear carry no such information, and they cannot serve as controls either, since their trade is already adjusting. Keeping them anyway leaves 530 cohort-year effects instead of 469, and the surplus ones are not identified: the aggregate estimate hardly moves, while its standard error rises from 0.042 to 54. The specification is wrong in a way that is invisible in the coefficient and obvious in the variance.
 
 # Theory
 
@@ -437,7 +441,7 @@ The third lesson is that large trade effects need not mean large welfare effects
 
 [^11]: @Head2014 stress that these welfare figures are meant to expose the method rather than to be definitive. The framework has no sectoral heterogeneity in $\epsilon$ and no input-output linkages, both of which matter; see @Costinot2014.
 
-**Exercise.** Upload from the course website the folder "Exercices/A4_GE". In "code" you will find a single R script, "pti_mti_geti.R".
+**Exercise.** Upload from Elearn the folder "Exercices/A4_GE". In "code" you will find a single R script, "pti_mti_geti.R".
 
 1.  Read this script beside the equations of this section, and identify the line that implements each of them: the contraction mapping of (@eq-mr1) and (@eq-mr2), the partial impact of (@eq-tradecosts), and the income update of (@eq-ydot).
 2.  Run it and check that you obtain @tbl-geti.
